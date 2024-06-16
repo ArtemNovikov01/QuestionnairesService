@@ -1,17 +1,9 @@
-﻿namespace QuestionnairesService.Models.Entities;
+﻿using QuestionnairesService.Models.Enums;
+
+namespace QuestionnairesService.Models.Entities;
 public class LimitedLiabilityCompany
 {
     public int Id { get; private set; }
-
-    /// <summary>
-    ///     Наименование полное.
-    /// </summary>
-    public string FullName { get; private set; } = null!;
-
-    /// <summary>
-    ///     Наименование сокращённое.
-    /// </summary>
-    public string ShortName { get; private set; } = null!;
 
     /// <summary>
     ///  ИНН.
@@ -29,14 +21,14 @@ public class LimitedLiabilityCompany
     public string RegistrationNumber { get; private set; } = null!;
 
     /// <summary>
-    ///     Скан ОГРНИП.
+    ///     Скан ОГРНИП.или ОГРН
     /// </summary>
     public byte[] SkanRegistrationNumber { get; private set; } = null!;
 
     /// <summary>
     ///     Дата регистрации.
     /// </summary>
-    public DateTime DateRegistration { get; private set; } = DateTime.Now;
+    public DateTime DateRegistration { get; private set; } = DateTime.UtcNow;
 
     /// <summary>
     ///     Скан выписки из ЕГРИП
@@ -52,24 +44,59 @@ public class LimitedLiabilityCompany
     /// </summary>
     public bool AvailabilityContract { get; private set; }
 
+    public BuisnessmanType BuisnessmanType { get; private set; }
+    
     /// <summary>
-    ///     Банковские реквизиты
+    ///     Расчётный счёт.
     /// </summary>
-    public int BankRequisitesId { get; private set; }
-    public BankRequisites BankRequisites { get; private set; } = null!;
+    public string PaymentAccount { get; private set; } = null!;
 
     #region Constructors
     public LimitedLiabilityCompany() { }
-    public LimitedLiabilityCompany(
-        string fullName, 
-        string shortName, 
+
+    public LimitedLiabilityCompany( 
         string inn, 
         byte[] skanInn, 
         string registrationNumber, 
         byte[] skanRegistrationNumber,
         byte[] skanExtractFromTax,
         byte[] skanContractRent,
-        bool availabilityContract)
+        bool availabilityContract,
+        BuisnessmanType buisnessmanType,
+        string bankCode,
+        string branchOfficeName,
+        string paymentAccount,
+        string correspondentAccount)
+    {
+        INN = inn;
+        SkanINN = skanInn;
+        RegistrationNumber = registrationNumber;
+        SkanRegistrationNumber = skanRegistrationNumber;
+        SkanExtractFromTax = skanExtractFromTax;
+        SkanContractRent = skanContractRent;
+        AvailabilityContract = availabilityContract;
+        BuisnessmanType = buisnessmanType;
+        BankCode = bankCode;
+        BranchOfficeName = branchOfficeName;
+        PaymentAccount = paymentAccount;
+        CorrespondentAccount = correspondentAccount;
+    }
+
+    public LimitedLiabilityCompany(
+        string fullName,
+        string shortName,
+        string inn,
+        byte[] skanInn,
+        string registrationNumber,
+        byte[] skanRegistrationNumber,
+        byte[] skanExtractFromTax,
+        byte[] skanContractRent,
+        bool availabilityContract,
+        BuisnessmanType buisnessmanType,
+        string bankCode,
+        string branchOfficeName,
+        string paymentAccount,
+        string correspondentAccount)
     {
         FullName = fullName;
         ShortName = shortName;
@@ -80,6 +107,12 @@ public class LimitedLiabilityCompany
         SkanExtractFromTax = skanExtractFromTax;
         SkanContractRent = skanContractRent;
         AvailabilityContract = availabilityContract;
+        BuisnessmanType = buisnessmanType;
+        BankCode = bankCode;
+        BranchOfficeName = branchOfficeName;
+        PaymentAccount = paymentAccount;
+        CorrespondentAccount = correspondentAccount;
+
     }
     #endregion
 }

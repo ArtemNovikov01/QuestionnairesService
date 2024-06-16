@@ -1,6 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using QuestionnairesService.Backend;
 
-app.MapGet("/", () => "Hello World!");
+var app = WebApplication
+    .CreateBuilder(args)
+    .BuildWebApplication()
+    .Build();
+
+app.ConfigureWebApplication();
 
 app.Run();

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman;
+using QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models;
 
 namespace QuestionnairesService.Web.Controllers;
 
@@ -16,8 +17,33 @@ public class BusinessmanController : ControllerBase
     }
 
     [HttpPost("createBusinessman")]
-    public Task<CreateBusinessmanResponse> CreateBusinessman(CreateBusinessmanCommand command)
+    public async Task<CreateBusinessmanResponse> CreateBusinessman(CreateBusinessmanRequest newBuisnessman)
     {
-        return _mediator.Send(command, HttpContext.RequestAborted);
+        await using Stream skanINNStream = newBuisnessman.SkanINN.OpenReadStream();
+
+        await using Stream skanRegistrationNumberStream = newBuisnessman.SkanRegistrationNumber.OpenReadStream();
+
+        await using Stream skanExtractFromTaxStream = newBuisnessman.SkanExtractFromTax.OpenReadStream();
+
+        await using Stream skanContractRentStream = newBuisnessman.SkanContractRent.OpenReadStream();
+
+        var command = new CreateBusinessmanCommand
+        {
+            BuisnessmenDto = newBuisnessman.BuisnessmanInfo,
+            SkanINN = skanINNStream,
+            SkanRegistrationNumber = skanRegistrationNumberStream,
+            SkanExtractFromTax = skanExtractFromTaxStream,
+            SkanContractRent = skanContractRentStream
+        };
+
+        return await _mediator.Send(command, HttpContext.RequestAborted);
     }
+}
+public class CreateBusinessmanRequest
+{
+    public IFormFile SkanINN { get; set; }
+    public IFormFile SkanRegistrationNumber { get; set; }
+    public IFormFile SkanExtractFromTax { get; set; }
+    public IFormFile SkanContractRent { get; set; }
+    public BuisnessmenDto BuisnessmanInfo { get; set; }
 }

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QuestionnairesService.Exception\QuestionnairesService.Exception.csproj" />
     <ProjectReference Include="..\QuestionnairesService.Models\QuestionnairesService.Models.csproj" />
   </ItemGroup>
 

@@ -5,9 +5,10 @@ using QuestionnairesService.Models.Entities;
 namespace QuestionnairesService.DataBase;
 public class QuestionnairesServiceDbContext : DbContext, IQuestionnairesServiceDbContext
 {
-    public DbSet<IndividualEntrepreneur> IndividualEntrepreneurs { get; set; }
-    public DbSet<LimitedLiabilityCompany> LimitedLiabilityCompanies { get; set; }
-    public DbSet<BankRequisites> BankRequisites { get; set; }
-    public QuestionnairesServiceDbContext(DbContextOptions options) : base(options) { }
+    public QuestionnairesServiceDbContext(DbContextOptions<QuestionnairesServiceDbContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
+    public DbSet<LimitedLiabilityCompany> LimitedLiabilityCompanies => Set<LimitedLiabilityCompany>();
 
 }
