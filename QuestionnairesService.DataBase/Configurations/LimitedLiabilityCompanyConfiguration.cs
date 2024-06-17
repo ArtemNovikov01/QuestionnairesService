@@ -24,9 +24,6 @@ public class LimitedLiabilityCompanyConfiguration : IEntityTypeConfiguration<Lim
         builder.Property(l => l.SkanExtractFromTax)
             .IsRequired();
 
-        builder.Property(l => l.BankRequisites)
-            .IsRequired();
-
         builder.Property(l => l.INN)
             .IsRequired();
 

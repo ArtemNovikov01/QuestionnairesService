@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman;
 using QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models;
+using QuestionnairesService.Application.Businessmans.Querys.GetInfoByBin;
+using QuestionnairesService.Application.Businessmans.Querys.GetInfoByInn;
 
 namespace QuestionnairesService.Web.Controllers;
 
@@ -38,6 +40,21 @@ public class BusinessmanController : ControllerBase
 
         return await _mediator.Send(command, HttpContext.RequestAborted);
     }
+
+    [HttpPost("getInfoByInn")]
+    public async Task<GetInfoByInnResponse> CreateBusinessman(GetInfoByInnQuery query)
+    {
+
+        return await _mediator.Send(query, HttpContext.RequestAborted);
+    }
+
+    [HttpPost("getInfoByBin")]
+    public async Task<GetInfoByBinResponse> CreateBusinessman(GetInfoByBinQuery query)
+    {
+
+        return await _mediator.Send(query, HttpContext.RequestAborted);
+    }
+
 }
 public class CreateBusinessmanRequest
 {

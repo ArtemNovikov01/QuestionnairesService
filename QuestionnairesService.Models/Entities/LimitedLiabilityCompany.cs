@@ -5,6 +5,13 @@ public class LimitedLiabilityCompany
 {
     public int Id { get; private set; }
 
+    public string FullName { get; private set; }
+    
+    public string ShortName { get; private set; }
+    public string BankCode { get; private set; }
+    public string BranchOfficeName { get; private set; }
+    public string CorrespondentAccount { get; private set; }
+
     /// <summary>
     ///  ИНН.
     /// </summary>

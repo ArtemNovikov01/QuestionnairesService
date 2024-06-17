@@ -76,31 +76,31 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 ? new LimitedLiabilityCompany(
                 command.BuisnessmenDto.FullName,
                 command.BuisnessmenDto.ShortName,
-                command.BuisnessmenDto.generalBuisnessmanDto.INN,
+                command.BuisnessmenDto.INN,
                 skanINNBytes,
-                command.BuisnessmenDto.generalBuisnessmanDto.RegistrationNumber,
+                command.BuisnessmenDto.RegistrationNumber,
                 skanRegistrationNumberBytes,
                 skanExtractFromTaxBytes,
                 skanContractRentBytes,
-                command.BuisnessmenDto.generalBuisnessmanDto.AvailabilityContract,
+                command.BuisnessmenDto.AvailabilityContract,
                 command.BuisnessmenDto.buisnessmanType,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.BankCode,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.BranchOfficeName,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.PaymentAccount,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.CorrespondentAccount)
+                command.BuisnessmenDto.BankCode,
+                command.BuisnessmenDto.BranchOfficeName,
+                command.BuisnessmenDto.PaymentAccount,
+                command.BuisnessmenDto.CorrespondentAccount)
                 : new LimitedLiabilityCompany(
-                command.BuisnessmenDto.generalBuisnessmanDto.INN,
+                command.BuisnessmenDto.INN,
                 skanINNBytes,
-                command.BuisnessmenDto.generalBuisnessmanDto.RegistrationNumber,
+                command.BuisnessmenDto.RegistrationNumber,
                 skanRegistrationNumberBytes,
                 skanExtractFromTaxBytes,
                 skanContractRentBytes,
-                command.BuisnessmenDto.generalBuisnessmanDto.AvailabilityContract,
+                command.BuisnessmenDto.AvailabilityContract,
                 command.BuisnessmenDto.buisnessmanType,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.BankCode,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.BranchOfficeName,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.PaymentAccount,
-                command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.CorrespondentAccount);
+                command.BuisnessmenDto.BankCode,
+                command.BuisnessmenDto.BranchOfficeName,
+                command.BuisnessmenDto.PaymentAccount,
+                command.BuisnessmenDto.CorrespondentAccount);
 
             _questionnairesServiceDbContext.LimitedLiabilityCompanies.Add(newBuisnessman);
 
@@ -132,17 +132,17 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 }
             }
 
-            if (string.IsNullOrEmpty(command.BuisnessmenDto.generalBuisnessmanDto.INN))
+            if (string.IsNullOrEmpty(command.BuisnessmenDto.INN))
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'ИНН' должно быть заполнено");
             }
 
-            if (string.IsNullOrEmpty(command.BuisnessmenDto.generalBuisnessmanDto.RegistrationNumber))
+            if (string.IsNullOrEmpty(command.BuisnessmenDto.RegistrationNumber))
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'ОГРНИП' должно быть заполнено");
             }
 
-            if (string.IsNullOrEmpty(command.BuisnessmenDto.generalBuisnessmanDto.RegistrationNumber))
+            if (string.IsNullOrEmpty(command.BuisnessmenDto.RegistrationNumber))
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'ОГРНИП' должно быть заполнено");
             }
@@ -167,24 +167,24 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Должен быть прикреплён 'Скан договора аренды помещения (офиса)'");
             }
 
-            if (command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites != null)
+            if (command.BuisnessmenDto != null)
             {
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.BankCode))
+                if (string.IsNullOrEmpty(command.BuisnessmenDto.BankCode))
                 {
                     throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'БИК' должно быть заполнено");
                 }
 
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.BranchOfficeName))
+                if (string.IsNullOrEmpty(command.BuisnessmenDto.BranchOfficeName))
                 {
                     throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Название филиала банка' должно быть заполнено");
                 }
 
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.PaymentAccount))
+                if (string.IsNullOrEmpty(command.BuisnessmenDto.PaymentAccount))
                 {
                     throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Расчётный счёт' должно быть заполнено");
                 }
 
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.generalBuisnessmanDto.BankRequisites.CorrespondentAccount))
+                if (string.IsNullOrEmpty(command.BuisnessmenDto.CorrespondentAccount))
                 {
                     throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Корреспонденский счёт' должно быть заполнено");
                 }

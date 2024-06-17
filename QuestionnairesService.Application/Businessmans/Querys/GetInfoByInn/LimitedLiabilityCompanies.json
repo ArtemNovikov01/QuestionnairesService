@@ -1,0 +1,18 @@
+{
+  "limitedLiabilityCompanies": [
+    {
+      "inn": 123,
+      "fullName": "One bank",
+      "shortName": "OB",
+      "registrationNumber": "666",
+      "registrationDate": "2001-01-01"
+    },
+    {
+      "inn": 321,
+      "fullName": "Two bank",
+      "shortName": "TB",
+      "registrationNumber": "777",
+      "registrationDate": "2002-02-02"
+    }
+  ]
+}
