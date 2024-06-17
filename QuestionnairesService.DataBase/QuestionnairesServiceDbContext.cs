@@ -9,6 +9,7 @@ public class QuestionnairesServiceDbContext : DbContext, IQuestionnairesServiceD
     {
         Database.EnsureCreated();
     }
+    
     public DbSet<LimitedLiabilityCompany> LimitedLiabilityCompanies => Set<LimitedLiabilityCompany>();
-
+    public DbSet<Bank> Banks => Set<Bank>();
 }

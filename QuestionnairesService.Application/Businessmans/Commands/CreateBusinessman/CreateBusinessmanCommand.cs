@@ -10,6 +10,8 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
 {
     public BuisnessmenDto BuisnessmenDto { get; init; } = null!;
 
+    public IList<BankDto> Banks { get; init; } = null!;
+
     /// <summary>
     ///     Скан ИНН.
     /// </summary>
@@ -83,11 +85,7 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 skanExtractFromTaxBytes,
                 skanContractRentBytes,
                 command.BuisnessmenDto.AvailabilityContract,
-                command.BuisnessmenDto.buisnessmanType,
-                command.BuisnessmenDto.BankCode,
-                command.BuisnessmenDto.BranchOfficeName,
-                command.BuisnessmenDto.PaymentAccount,
-                command.BuisnessmenDto.CorrespondentAccount)
+                command.BuisnessmenDto.buisnessmanType)
                 : new LimitedLiabilityCompany(
                 command.BuisnessmenDto.INN,
                 skanINNBytes,
@@ -96,13 +94,23 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 skanExtractFromTaxBytes,
                 skanContractRentBytes,
                 command.BuisnessmenDto.AvailabilityContract,
-                command.BuisnessmenDto.buisnessmanType,
-                command.BuisnessmenDto.BankCode,
-                command.BuisnessmenDto.BranchOfficeName,
-                command.BuisnessmenDto.PaymentAccount,
-                command.BuisnessmenDto.CorrespondentAccount);
+                command.BuisnessmenDto.buisnessmanType);
 
             _questionnairesServiceDbContext.LimitedLiabilityCompanies.Add(newBuisnessman);
+
+            List<Bank> banks = new();
+
+            command.Banks.ToList().ForEach(b =>
+            {
+                banks.Add(new Bank(
+                    b.BankCode, 
+                    b.BranchOfficeName, 
+                    b.PaymentAccount, 
+                    b.CorrespondentAccount, 
+                    newBuisnessman));
+            });
+
+            _questionnairesServiceDbContext.Banks.AddRange(banks);
 
             await _questionnairesServiceDbContext.SaveChangesAsync(cancellationToken);
 
@@ -167,26 +175,29 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Должен быть прикреплён 'Скан договора аренды помещения (офиса)'");
             }
 
-            if (command.BuisnessmenDto != null)
+            if (command.Banks.Any())
             {
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.BankCode))
+                foreach (var bank in command.Banks)
                 {
-                    throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'БИК' должно быть заполнено");
-                }
+                    if (string.IsNullOrEmpty(bank.BankCode))
+                    {
+                        throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'БИК' должно быть заполнено");
+                    }
 
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.BranchOfficeName))
-                {
-                    throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Название филиала банка' должно быть заполнено");
-                }
+                    if (string.IsNullOrEmpty(bank.BranchOfficeName))
+                    {
+                        throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Название филиала банка' должно быть заполнено");
+                    }
 
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.PaymentAccount))
-                {
-                    throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Расчётный счёт' должно быть заполнено");
-                }
+                    if (string.IsNullOrEmpty(bank.PaymentAccount))
+                    {
+                        throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Расчётный счёт' должно быть заполнено");
+                    }
 
-                if (string.IsNullOrEmpty(command.BuisnessmenDto.CorrespondentAccount))
-                {
-                    throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Корреспонденский счёт' должно быть заполнено");
+                    if (string.IsNullOrEmpty(bank.CorrespondentAccount))
+                    {
+                        throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Корреспонденский счёт' должно быть заполнено");
+                    }
                 }
             }
             else

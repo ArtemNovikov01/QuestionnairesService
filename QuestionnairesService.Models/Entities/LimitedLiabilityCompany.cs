@@ -5,12 +5,9 @@ public class LimitedLiabilityCompany
 {
     public int Id { get; private set; }
 
-    public string FullName { get; private set; }
+    public string? FullName { get; private set; }
     
-    public string ShortName { get; private set; }
-    public string BankCode { get; private set; }
-    public string BranchOfficeName { get; private set; }
-    public string CorrespondentAccount { get; private set; }
+    public string? ShortName { get; private set; }
 
     /// <summary>
     ///  ИНН.
@@ -52,11 +49,8 @@ public class LimitedLiabilityCompany
     public bool AvailabilityContract { get; private set; }
 
     public BuisnessmanType BuisnessmanType { get; private set; }
-    
-    /// <summary>
-    ///     Расчётный счёт.
-    /// </summary>
-    public string PaymentAccount { get; private set; } = null!;
+
+    public IList<Bank>? Banks { get; private set; }
 
     #region Constructors
     public LimitedLiabilityCompany() { }
@@ -69,11 +63,7 @@ public class LimitedLiabilityCompany
         byte[] skanExtractFromTax,
         byte[] skanContractRent,
         bool availabilityContract,
-        BuisnessmanType buisnessmanType,
-        string bankCode,
-        string branchOfficeName,
-        string paymentAccount,
-        string correspondentAccount)
+        BuisnessmanType buisnessmanType)
     {
         INN = inn;
         SkanINN = skanInn;
@@ -83,10 +73,6 @@ public class LimitedLiabilityCompany
         SkanContractRent = skanContractRent;
         AvailabilityContract = availabilityContract;
         BuisnessmanType = buisnessmanType;
-        BankCode = bankCode;
-        BranchOfficeName = branchOfficeName;
-        PaymentAccount = paymentAccount;
-        CorrespondentAccount = correspondentAccount;
     }
 
     public LimitedLiabilityCompany(
@@ -99,11 +85,7 @@ public class LimitedLiabilityCompany
         byte[] skanExtractFromTax,
         byte[] skanContractRent,
         bool availabilityContract,
-        BuisnessmanType buisnessmanType,
-        string bankCode,
-        string branchOfficeName,
-        string paymentAccount,
-        string correspondentAccount)
+        BuisnessmanType buisnessmanType)
     {
         FullName = fullName;
         ShortName = shortName;
@@ -115,11 +97,6 @@ public class LimitedLiabilityCompany
         SkanContractRent = skanContractRent;
         AvailabilityContract = availabilityContract;
         BuisnessmanType = buisnessmanType;
-        BankCode = bankCode;
-        BranchOfficeName = branchOfficeName;
-        PaymentAccount = paymentAccount;
-        CorrespondentAccount = correspondentAccount;
-
     }
     #endregion
 }

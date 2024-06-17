@@ -35,5 +35,8 @@ public class LimitedLiabilityCompanyConfiguration : IEntityTypeConfiguration<Lim
 
         builder.Property(l => l.AvailabilityContract)
             .IsRequired();
+
+        builder.HasMany(l => l.Banks)
+            .WithOne(b => b.LimitedLiabilityCompany);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using MediatR;
+using Newtonsoft.Json;
 using QuestionnairesService.Application.Services;
 using QuestionnairesService.Exceptions.Common.Exceptions;
-using Newtonsoft.Json;
-using QuestionnairesService.Models.Entities;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace QuestionnairesService.Application.Businessmans.Querys.GetInfoByInn;
 public record GetInfoByInnQuery : IRequest<GetInfoByInnResponse>
@@ -12,7 +10,6 @@ public record GetInfoByInnQuery : IRequest<GetInfoByInnResponse>
     public sealed class GetInfoByInnQueryHandler : IRequestHandler<GetInfoByInnQuery, GetInfoByInnResponse>
     {
         private readonly IQuestionnairesServiceDbContext _questionnairesServiceDbContext;
-        private readonly string _jsonFilePath = "C:/Users/novikovaa/source/QuestionnairesService/QuestionnairesService/QuestionnairesService.Application/Businessmans/Querys/GetInfoByInn/LimitedLiabilityCompanies.json";
 
         public GetInfoByInnQueryHandler(IQuestionnairesServiceDbContext questionnairesServiceDbContext)
         {
@@ -22,24 +19,32 @@ public record GetInfoByInnQuery : IRequest<GetInfoByInnResponse>
         public async Task<GetInfoByInnResponse> Handle(GetInfoByInnQuery query, CancellationToken cancellationToken)
         {
             ValidateRequestAndThrow(query);
-
-            using StreamReader streamReader = new StreamReader(_jsonFilePath);
-            
-            var json = await streamReader.ReadToEndAsync();
-            var jsonObject = JsonConvert.DeserializeObject<RootObject>(json);
-
-            if (jsonObject is not null)
+            //ToDo Разобраться с относительным путём к файлу
+            string _jsonFilePath = "Businessmans/Querys/GetInfoByInn/LimitedLiabilityCompanies.json";
+            string absolutePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _jsonFilePath);
+            try
             {
-                foreach (var company in jsonObject.GetInfoByInnResponses)
+                using StreamReader streamReader = new StreamReader(absolutePath);
+
+                var json = await streamReader.ReadToEndAsync();
+                var jsonObject = JsonConvert.DeserializeObject<CompanyDto>(json);
+
+                if (jsonObject is not null)
                 {
-                    if (company.Inn == query.Inn)
-                    {
-                        return company;
-                    }
+                    return jsonObject.CompanyInfo.FirstOrDefault(c => c.Inn == query.Inn)
+                        ?? throw new BadRequestException(ErrorCodes.Common.BadRequest, "Ни одна организация не соответствует введённому ИНН.");
                 }
             }
+            catch (DirectoryNotFoundException)
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Указан неверный путь");
+            }
+            catch (Exception)
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Файл повреждён");
+            }
 
-            throw new BadRequestException(ErrorCodes.Common.BadRequest, "Не одна организация не соответствует введённому ИНН.");
+            throw new BadRequestException(ErrorCodes.Common.BadRequest, "Не заданы начальные данные");
         }
 
         private void ValidateRequestAndThrow(GetInfoByInnQuery query)
@@ -50,9 +55,10 @@ public record GetInfoByInnQuery : IRequest<GetInfoByInnResponse>
             }
         }
 
-        public class RootObject
+        private class CompanyDto
         {
-            public List<GetInfoByInnResponse> GetInfoByInnResponses { get; set; }
+            [JsonProperty("limitedLiabilityCompanies")]
+            public List<GetInfoByInnResponse> CompanyInfo { get; set; } = null!;
         }
     }
 }
