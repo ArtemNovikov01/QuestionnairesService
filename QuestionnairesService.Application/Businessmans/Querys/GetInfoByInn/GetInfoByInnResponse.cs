@@ -4,7 +4,7 @@ namespace QuestionnairesService.Application.Businessmans.Querys.GetInfoByInn;
 public class GetInfoByInnResponse
 {
     [JsonProperty("inn")]
-    public string Inn { get; set; } = null!;
+    public long Inn { get; set; }
 
     /// <summary>
     ///     Полное имя.
@@ -22,7 +22,7 @@ public class GetInfoByInnResponse
     ///     ОГРН.
     /// </summary>
     [JsonProperty("registrationNumber")]
-    public string RegistrationNumber { get; init; } = null!;
+    public long RegistrationNumber { get; init; }
 
     /// <summary>
     ///     Дата регистрации.

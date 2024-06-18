@@ -7,7 +7,7 @@ public class GetInfoByBinResponse
     ///     Название филиала банка
     /// </summary>
     [JsonProperty("bin")]
-    public string Bin { get; init; } = null!;
+    public long Bin { get; init; }
 
     /// <summary>
     ///     Название филиала банка

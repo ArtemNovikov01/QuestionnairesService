@@ -6,7 +6,7 @@ using QuestionnairesService.Exceptions.Resources;
 namespace QuestionnairesService.Application.Businessmans.Querys.GetInfoByBin;
 public record GetInfoByBinQuery : IRequest<GetInfoByBinResponse>
 {
-    public string Bin { get; init; } = null!;
+    public long Bin { get; init; }
     public sealed class GetInfoByBinQueryHandler : IRequestHandler<GetInfoByBinQuery, GetInfoByBinResponse>
     {
         private readonly string _jsonFilePath = "./InitData/BanksRequisites.json";
@@ -48,17 +48,13 @@ public record GetInfoByBinQuery : IRequest<GetInfoByBinResponse>
 
         private void ValidateRequestAndThrow(GetInfoByBinQuery query)
         {
-            if (string.IsNullOrEmpty(query.Bin))
+            if (query.Bin == 0)
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'БИК' должно быть заполнено.");
             }
-            if (query.Bin.Length != 9)
+            if (query.Bin.ToString().Length != 9)
             {
-                throw new BadRequestException(ErrorCodes.Common.BadRequest, "ИНН должно состоять из 9 цифр.");
-            }
-            if (!int.TryParse(query.Bin, out int result))
-            {
-                throw new BadRequestException(ErrorCodes.Common.BadRequest, "БИК должно состоять из цифр.");
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "БИК должно состоять из 9 цифр.");
             }
         }
 

@@ -6,7 +6,7 @@ using QuestionnairesService.Exceptions.Resources;
 namespace QuestionnairesService.Application.Businessmans.Querys.GetInfoByInn;
 public record GetInfoByInnQuery : IRequest<GetInfoByInnResponse>
 {
-    public string Inn { get; init; } = null!;
+    public long Inn { get; init; }
     public sealed class GetInfoByInnQueryHandler : IRequestHandler<GetInfoByInnQuery, GetInfoByInnResponse>
     {
 
@@ -50,17 +50,13 @@ public record GetInfoByInnQuery : IRequest<GetInfoByInnResponse>
 
         private void ValidateRequestAndThrow(GetInfoByInnQuery query)
         {
-            if (string.IsNullOrEmpty(query.Inn))
+            if (query.Inn == 0)
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'ИНН' должно быть заполнено.");
             }
-            if (query.Inn.Length != 10)
+            if (query.Inn.ToString().Length != 10)
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "ИНН должно состоять из 10 цифр.");
-            }
-            if (!int.TryParse(query.Inn, out int result))
-            {
-                throw new BadRequestException(ErrorCodes.Common.BadRequest, "ИНН должно состоять из цифр.");
             }
         }
 
