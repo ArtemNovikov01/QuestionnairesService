@@ -1,14 +1,29 @@
 ﻿{
   "limitedLiabilityCompanies": [
     {
-      "bin": 123,
+      "bin": 568362831,
       "nameBankBranch": "Сбербанк",
-      "correspondentAccount": "666"
+      "correspondentAccount": 30101810400000000225
     },
     {
-      "bin": 321,
+      "bin": 837501632,
       "nameBankBranch": "Тинькофф",
-      "correspondentAccount": "777"
+      "correspondentAccount": 30101810145250000974
+    },
+    {
+      "bin": 198372645,
+      "nameBankBranch": "ВТБ",
+      "correspondentAccount": 30101810700000000187
+    },
+    {
+      "bin": 374019274,
+      "nameBankBranch": "Альфа-банк",
+      "correspondentAccount": 30101810200000000593
+    },
+    {
+      "bin": 783917264,
+      "nameBankBranch": "Райффайзенбанк",
+      "correspondentAccount": 30101810200000000700
     }
   ]
 }

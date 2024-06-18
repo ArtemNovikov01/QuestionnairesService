@@ -50,7 +50,15 @@ public record GetInfoByBinQuery : IRequest<GetInfoByBinResponse>
         {
             if (string.IsNullOrEmpty(query.Bin))
             {
-                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'ИНН' должно быть заполнено.");
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'БИК' должно быть заполнено.");
+            }
+            if (query.Bin.Length != 9)
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "ИНН должно состоять из 9 цифр.");
+            }
+            if (!int.TryParse(query.Bin, out int result))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "БИК должно состоять из цифр.");
             }
         }
 

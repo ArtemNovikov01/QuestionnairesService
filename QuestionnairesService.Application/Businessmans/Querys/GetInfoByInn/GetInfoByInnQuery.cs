@@ -54,6 +54,14 @@ public record GetInfoByInnQuery : IRequest<GetInfoByInnResponse>
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'ИНН' должно быть заполнено.");
             }
+            if (query.Inn.Length != 10)
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "ИНН должно состоять из 10 цифр.");
+            }
+            if (!int.TryParse(query.Inn, out int result))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "ИНН должно состоять из цифр.");
+            }
         }
 
         private class CompanyDto

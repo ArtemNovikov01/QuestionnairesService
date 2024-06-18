@@ -1,18 +1,39 @@
 {
   "limitedLiabilityCompanies": [
     {
-      "inn": 123,
-      "fullName": "One bank",
-      "shortName": "OB",
-      "registrationNumber": "666",
-      "registrationDate": "2001-01-01"
+      "inn": 7706107510,
+      "fullName": "ООО Роснефть",
+      "shortName": "Роснефть",
+      "registrationNumber": 1027700043502,
+      "registrationDate": "07.12.1995"
     },
     {
-      "inn": 321,
-      "fullName": "Two bank",
-      "shortName": "TB",
-      "registrationNumber": "777",
-      "registrationDate": "2002-02-02"
+      "inn": 8602060555,
+      "fullName": "ООО Сургутнефтегаз",
+      "shortName": "Сургутнефтегаз",
+      "registrationNumber": 1028600584540,
+      "registrationDate": "27.06.1996"
+    },
+    {
+      "inn": 7736050003,
+      "fullName": "ООО Газпром",
+      "shortName": "Газпром",
+      "registrationNumber": 1027700070518,
+      "registrationDate": "25.02.1993"
+    },
+    {
+      "inn": 8401005730,
+      "fullName": "ООО Норникель",
+      "shortName": "Норникель",
+      "registrationNumber": 1028400000298,
+      "registrationDate": "04.07.1997"
+    },
+    {
+      "inn": 7708004767,
+      "fullName": "ООО Лукойл",
+      "shortName": "Лукойл",
+      "registrationNumber": 1027700035769,
+      "registrationDate": "22.04.1993"
     }
   ]
 }
