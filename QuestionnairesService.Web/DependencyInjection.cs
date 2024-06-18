@@ -3,6 +3,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using QuestionnairesService.DataBase;
 using QuestionnairesService.Application;
+using React.AspNet;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 
 namespace QuestionnairesService.Backend
 {
@@ -16,7 +19,12 @@ namespace QuestionnairesService.Backend
             // Services
             builder.Services
                 .AddDatabase(webAppSettings.Database)
-                .AddApplication();
+                .AddApplication()
+                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+                .AddReact()
+                .AddJsEngineSwitcher(o => 
+                    o.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+                        .AddChakraCore(); 
 
             builder.Services
                 .AddMvc()
@@ -40,6 +48,10 @@ namespace QuestionnairesService.Backend
             app.UseRouting();
 
             app.MapControllers();
+
+            app.UseReact(config => { });
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             return app;
         }
