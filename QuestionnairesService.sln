@@ -17,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionnairesService.Appli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastrucure", "Infrastrucure", "{8D72BDAD-B5C6-4BFC-913B-3139D23444B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionnairesService.DataBase", "QuestionnairesService.DataBase\QuestionnairesService.DataBase.csproj", "{5675527E-AFA7-4CDA-8025-931BC2F2B5EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnairesService.DataBase", "QuestionnairesService.DataBase\QuestionnairesService.DataBase.csproj", "{5675527E-AFA7-4CDA-8025-931BC2F2B5EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestionnairesService.Infrastructure", "QuestionnairesService.Infrastructure\QuestionnairesService.Infrastructure.csproj", "{FA51CF45-0730-45CD-90E7-D14EAF660222}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnairesService.Infrastructure", "QuestionnairesService.Infrastructure\QuestionnairesService.Infrastructure.csproj", "{FA51CF45-0730-45CD-90E7-D14EAF660222}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnairesService.Exception", "QuestionnairesService.Exception\QuestionnairesService.Exception.csproj", "{3934D2A1-BD7F-49E3-8C1C-1CB1643158EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionnairesService.Exceptions", "QuestionnairesService.Exception\QuestionnairesService.Exceptions.csproj", "{3934D2A1-BD7F-49E3-8C1C-1CB1643158EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

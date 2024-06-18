@@ -1,0 +1,14 @@
+﻿{
+  "limitedLiabilityCompanies": [
+    {
+      "bin": 123,
+      "nameBankBranch": "Сбербанк",
+      "correspondentAccount": "666"
+    },
+    {
+      "bin": 321,
+      "nameBankBranch": "Тинькофф",
+      "correspondentAccount": "777"
+    }
+  ]
+}

@@ -22,14 +22,14 @@ namespace QuestionnairesService.Exceptions.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class EquipmentErrorString {
+    public class BanksRequisitesErrorString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal EquipmentErrorString() {
+        internal BanksRequisitesErrorString() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace QuestionnairesService.Exceptions.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QuestionnairesService.Exceptions.Resources.EquipmentErrorString", typeof(EquipmentErrorString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QuestionnairesService.Exceptions.Resources.BanksRequisitesErrorString", typeof(BanksRequisitesErrorString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,11 @@ namespace QuestionnairesService.Exceptions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Оборудование с Id={0} не найдено.
+        ///   Looks up a localized string similar to Данные о банках с БИК = {0} не найдено.
         /// </summary>
-        public static string EquipmentNotFoundTemplate {
+        public static string BankRequisiteNotFoundTemplate {
             get {
-                return ResourceManager.GetString("EquipmentNotFoundTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не найдено оборудование со следующими Id: {0}.
-        /// </summary>
-        public static string EquipmentsNotFoundTemplate {
-            get {
-                return ResourceManager.GetString("EquipmentsNotFoundTemplate", resourceCulture);
+                return ResourceManager.GetString("BankRequisiteNotFoundTemplate", resourceCulture);
             }
         }
     }

@@ -44,7 +44,6 @@ public class BusinessmanController : ControllerBase
     [HttpPost("getInfoByInn")]
     public async Task<GetInfoByInnResponse> CreateBusinessman(GetInfoByInnQuery query)
     {
-
         return await _mediator.Send(query, HttpContext.RequestAborted);
     }
 
@@ -54,13 +53,13 @@ public class BusinessmanController : ControllerBase
 
         return await _mediator.Send(query, HttpContext.RequestAborted);
     }
-
 }
+
 public class CreateBusinessmanRequest
 {
-    public IFormFile SkanINN { get; set; }
-    public IFormFile SkanRegistrationNumber { get; set; }
-    public IFormFile SkanExtractFromTax { get; set; }
-    public IFormFile SkanContractRent { get; set; }
-    public BuisnessmenDto BuisnessmanInfo { get; set; }
+    public IFormFile SkanINN { get; set; } = null!;
+    public IFormFile SkanRegistrationNumber { get; set; } = null!;
+    public IFormFile SkanExtractFromTax { get; set; } = null!;
+    public IFormFile SkanContractRent { get; set; } = null!;
+    public BuisnessmenDto BuisnessmanInfo { get; set; } = null!;
 }

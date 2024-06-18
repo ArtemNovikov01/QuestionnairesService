@@ -117,10 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EquipmentNotFoundTemplate" xml:space="preserve">
-    <value>Оборудование с Id={0} не найдено</value>
-  </data>
-  <data name="EquipmentsNotFoundTemplate" xml:space="preserve">
-    <value>Не найдено оборудование со следующими Id: {0}</value>
+  <data name="CompanyInfoNotFoundTemplate" xml:space="preserve">
+    <value>Ни одна организация не соответствует ИНН = {0}.</value>
   </data>
 </root>

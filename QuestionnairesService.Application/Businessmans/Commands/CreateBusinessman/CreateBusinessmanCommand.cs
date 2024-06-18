@@ -10,8 +10,6 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
 {
     public BuisnessmenDto BuisnessmenDto { get; init; } = null!;
 
-    public IList<BankDto> Banks { get; init; } = null!;
-
     /// <summary>
     ///     Скан ИНН.
     /// </summary>
@@ -50,57 +48,47 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
             byte[] skanExtractFromTaxBytes;
             byte[] skanContractRentBytes;
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await command.SkanINN.CopyToAsync(memoryStream);
-                skanINNBytes = memoryStream.ToArray();
-            }
+            await using MemoryStream memoryStream = new MemoryStream();
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await command.SkanRegistrationNumber.CopyToAsync(memoryStream);
-                skanRegistrationNumberBytes = memoryStream.ToArray();
-            }
+            await command.SkanINN.CopyToAsync(memoryStream);
+            skanINNBytes = memoryStream.ToArray();
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await command.SkanExtractFromTax.CopyToAsync(memoryStream);
-                skanExtractFromTaxBytes = memoryStream.ToArray();
-            }
+            await command.SkanRegistrationNumber.CopyToAsync(memoryStream);
+            skanRegistrationNumberBytes = memoryStream.ToArray();
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await command.SkanContractRent.CopyToAsync(memoryStream);
-                skanContractRentBytes = memoryStream.ToArray();
-            }
+            await command.SkanExtractFromTax.CopyToAsync(memoryStream);
+            skanExtractFromTaxBytes = memoryStream.ToArray();
+
+            await command.SkanContractRent.CopyToAsync(memoryStream);
+            skanContractRentBytes = memoryStream.ToArray();
 
             var newBuisnessman = isLimitedLiabilityCompany
                 ? new LimitedLiabilityCompany(
-                command.BuisnessmenDto.FullName,
-                command.BuisnessmenDto.ShortName,
-                command.BuisnessmenDto.INN,
-                skanINNBytes,
-                command.BuisnessmenDto.RegistrationNumber,
-                skanRegistrationNumberBytes,
-                skanExtractFromTaxBytes,
-                skanContractRentBytes,
-                command.BuisnessmenDto.AvailabilityContract,
-                command.BuisnessmenDto.buisnessmanType)
+                    command.BuisnessmenDto.FullName,
+                    command.BuisnessmenDto.ShortName,
+                    command.BuisnessmenDto.INN,
+                    skanINNBytes,
+                    command.BuisnessmenDto.RegistrationNumber,
+                    skanRegistrationNumberBytes,
+                    skanExtractFromTaxBytes,
+                    skanContractRentBytes,
+                    command.BuisnessmenDto.AvailabilityContract,
+                    command.BuisnessmenDto.buisnessmanType)
                 : new LimitedLiabilityCompany(
-                command.BuisnessmenDto.INN,
-                skanINNBytes,
-                command.BuisnessmenDto.RegistrationNumber,
-                skanRegistrationNumberBytes,
-                skanExtractFromTaxBytes,
-                skanContractRentBytes,
-                command.BuisnessmenDto.AvailabilityContract,
-                command.BuisnessmenDto.buisnessmanType);
+                    command.BuisnessmenDto.INN,
+                    skanINNBytes,
+                    command.BuisnessmenDto.RegistrationNumber,
+                    skanRegistrationNumberBytes,
+                    skanExtractFromTaxBytes,
+                    skanContractRentBytes,
+                    command.BuisnessmenDto.AvailabilityContract,
+                    command.BuisnessmenDto.buisnessmanType);
 
             _questionnairesServiceDbContext.LimitedLiabilityCompanies.Add(newBuisnessman);
 
             List<Bank> banks = new();
 
-            command.Banks.ToList().ForEach(b =>
+            command.BuisnessmenDto.Banks.ToList().ForEach(b =>
             {
                 banks.Add(new Bank(
                     b.BankCode, 
@@ -175,9 +163,9 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Должен быть прикреплён 'Скан договора аренды помещения (офиса)'");
             }
 
-            if (command.Banks.Any())
+            if (command.BuisnessmenDto.Banks.Any())
             {
-                foreach (var bank in command.Banks)
+                foreach (var bank in command.BuisnessmenDto.Banks)
                 {
                     if (string.IsNullOrEmpty(bank.BankCode))
                     {

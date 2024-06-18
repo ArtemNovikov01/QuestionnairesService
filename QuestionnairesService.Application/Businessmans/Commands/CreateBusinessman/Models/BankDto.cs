@@ -1,5 +1,9 @@
-﻿namespace QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models
+﻿using Microsoft.AspNetCore.Mvc;
+using QuestionnairesService.Application.Services;
+
+namespace QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models
 {
+    [ModelBinder(BinderType = typeof(MetadataValueModelBinder))]
     public class BankDto
     {
         /// <summary>

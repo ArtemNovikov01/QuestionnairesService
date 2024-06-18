@@ -22,14 +22,14 @@ namespace QuestionnairesService.Exceptions.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class OrderErrorString {
+    public class CompanyInfoErrorString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal OrderErrorString() {
+        internal CompanyInfoErrorString() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace QuestionnairesService.Exceptions.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QuestionnairesService.Exceptions.Resources.OrderErrorString", typeof(OrderErrorString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QuestionnairesService.Exceptions.Resources.CompanyInfoErrorString", typeof(CompanyInfoErrorString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace QuestionnairesService.Exceptions.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Заказ с Id={0} не найден.
+        ///   Looks up a localized string similar to Ни одна организация не соответствует ИНН = {0}..
         /// </summary>
-        public static string OrderNotFoundTemplate {
+        public static string CompanyInfoNotFoundTemplate {
             get {
-                return ResourceManager.GetString("OrderNotFoundTemplate", resourceCulture);
+                return ResourceManager.GetString("CompanyInfoNotFoundTemplate", resourceCulture);
             }
         }
     }

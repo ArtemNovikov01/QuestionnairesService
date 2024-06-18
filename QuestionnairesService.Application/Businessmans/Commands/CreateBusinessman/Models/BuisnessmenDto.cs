@@ -1,4 +1,5 @@
 ﻿using QuestionnairesService.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models
 {
@@ -29,5 +30,7 @@ namespace QuestionnairesService.Application.Businessmans.Commands.CreateBusiness
         ///     Наличие договора.
         /// </summary>
         public bool AvailabilityContract { get; init; }
+
+        public List<BankDto> Banks { get; set; } = null!;
     }
 }
