@@ -20,11 +20,11 @@ namespace QuestionnairesService.Backend
             builder.Services
                 .AddDatabase(webAppSettings.Database)
                 .AddApplication()
-                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-                .AddReact()
-                .AddJsEngineSwitcher(o => 
-                    o.DefaultEngineName = ChakraCoreJsEngine.EngineName)
-                        .AddChakraCore(); 
+                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+                //.AddReact()
+                //.AddJsEngineSwitcher(o => 
+                //    o.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+                //        .AddChakraCore(); 
 
             builder.Services
                 .AddMvc()
@@ -49,9 +49,9 @@ namespace QuestionnairesService.Backend
 
             app.MapControllers();
 
-            app.UseReact(config => { });
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            //app.UseReact(config => { });
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
 
             return app;
         }
