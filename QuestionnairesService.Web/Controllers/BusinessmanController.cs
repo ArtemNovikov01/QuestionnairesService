@@ -42,13 +42,13 @@ public class BusinessmanController : ControllerBase
     }
 
     [HttpPost("getInfoByInn")]
-    public async Task<GetInfoByInnResponse> CreateBusinessman(GetInfoByInnQuery query)
+    public async Task<GetInfoByInnResponse> GetInfoByInn(GetInfoByInnQuery query)
     {
         return await _mediator.Send(query, HttpContext.RequestAborted);
     }
 
     [HttpPost("getInfoByBin")]
-    public async Task<GetInfoByBinResponse> CreateBusinessman(GetInfoByBinQuery query)
+    public async Task<GetInfoByBinResponse> GetInfoByBin(GetInfoByBinQuery query)
     {
 
         return await _mediator.Send(query, HttpContext.RequestAborted);
