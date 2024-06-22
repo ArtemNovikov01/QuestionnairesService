@@ -33,6 +33,15 @@ namespace QuestionnairesService.Backend
                     o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
                 });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost3000",
+                    builder => builder
+                        .WithOrigins("http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
             // Swagger
             builder.Services
                 .AddSwaggerGen();
@@ -46,6 +55,23 @@ namespace QuestionnairesService.Backend
             app.UseSwaggerUI(opt => { opt.SwaggerEndpoint("v1/swagger.json", "AllSharing Backend"); });
 
             app.UseRouting();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            // Cors
+            if (!app.Environment.IsProduction())
+            {
+                app.UseCors(cfg => cfg
+                    .WithOrigins("http://localhost:3000", "https://localhost:3000", "https://allsharing-front.vercel.app")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials());
+            }
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.MapControllers();
 
