@@ -1,5 +1,6 @@
 import { GetInfoByInn } from "@/app/shared/models/formModels/getInfoByInnModel";
 import { BusinessmanService } from "@/app/shared/services/businessman-service";
+import Requesites from "../requesites-page-component/requesites-page.component";
 
 const service = new BusinessmanService()
 
@@ -66,5 +67,11 @@ export class LimitedLiabilityCompanyEvents {
                 errorMessage: ''
             }));
         }
+    }
+
+    getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode>>) {
+        return(
+            setSelectedComponent(<Requesites/>)
+        )
     }
 }

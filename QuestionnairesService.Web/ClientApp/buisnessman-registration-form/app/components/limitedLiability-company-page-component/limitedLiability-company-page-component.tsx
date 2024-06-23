@@ -6,6 +6,7 @@ import "./limitedLiability-company-page.css"
 const getDataEvent = new LimitedLiabilityCompanyEvents()
 
 export default function LimitedLiabilityCompany(){
+    const [requesitesForm, setrequesitesForm] = useState<React.ReactNode>(null);
     const [formValues, setFormValues] = useState<GetInfoByInn>({
         inn: '',
         fullName: '',
@@ -227,7 +228,16 @@ export default function LimitedLiabilityCompany(){
                   <label className="form-text custom-label-checkbox">Нет договора</label>
                 </div>
               </div>
-              {<button className="btn btn-primary custom-button-right" disabled = {!isValidForm()}>Далее</button>}
+              {requesitesForm === null && (
+                 <button
+                   className="btn btn-primary custom-button-right"
+                   onClick={() => getDataEvent.getRequesitesForm(setrequesitesForm)}
+                   disabled={!isValidForm()}
+                 >
+                   Далее
+                 </button>
+               )}
+            {requesitesForm}
             </form>
         </div>
     )
