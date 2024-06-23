@@ -17,3 +17,13 @@
     margin-bottom: 5px;
     margin-left: 5px;
 }
+.custom-message-error{
+    color:red;
+    font-size: 10px;
+    margin-top: 5px;
+}
+.custom-button-right {
+    display: block;
+    margin-left: auto;
+    margin-top: 1rem;
+  }

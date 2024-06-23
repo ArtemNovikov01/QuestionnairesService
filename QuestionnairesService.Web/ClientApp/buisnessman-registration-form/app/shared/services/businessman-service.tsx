@@ -14,12 +14,19 @@ export class BusinessmanService {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText);
+        const parsedData = JSON.parse(errorText);
+        
+        const data: GetInfoByInn = new GetInfoByInn
+        data.inn = '';
+        data.fullName = '';
+        data.shortName = '';
+        data.registrationNumber = '';
+        data.registrationDate = undefined;
+        data.errorMessage = parsedData.message;
+        return data
       }
 
       const data: GetInfoByInn = await response.json();
-      console.log(data);
-      console.log(data.registrationDate);
       return data;
   }
 }
