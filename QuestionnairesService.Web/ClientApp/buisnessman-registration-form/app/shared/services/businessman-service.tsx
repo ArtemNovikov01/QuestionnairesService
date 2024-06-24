@@ -1,4 +1,3 @@
-import axios from "axios";
 import { GetInfoByBin } from "../models/form-models/getInfoByBinModel";
 import { GetInfoByInn } from "../models/form-models/getInfoByInnModel";
 
@@ -58,35 +57,5 @@ export class BusinessmanService {
     return data;
   }
 
-  async submitForm(formData: any) {
-    console.log(formData)
-    try {
-      const data = new FormData();
-      Object.keys(formData).forEach(key => {
-        if (formData[key] instanceof File) {
-          data.append(key, formData[key]);
-        } else if (Array.isArray(formData[key])) 
-          {
-            console.log(formData[key])
-          formData[key].forEach((item: any, index: number) => {
-            Object.keys(item).forEach(subKey => {
-              data.append(`${key}[${index}][${subKey}]`, item[subKey]);
-            });
-          });
-        } else {
-          data.append(key, formData[key]);
-        }
-      });
-
-      const response = await axios.post(this.baseApi + 'createBusinessman', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      console.log('Form submitted successfully:', response.data);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
-  }
+  
 }

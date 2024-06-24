@@ -77,7 +77,7 @@ export class LimitedLiabilityCompanyEvents {
     }
 
     getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
-        setSelectedComponent((prevState) => [...prevState, <Requesites />]);
+        setSelectedComponent((prevState) => [...prevState, <Requesites/>]);
       }
 
     deleteRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {

@@ -42,7 +42,6 @@ export default function LimitedLiabilityCompany(){
     const [SkanResponseEgrip, setSkanResponseEgrip] = useState<File | null>(null);
     const [SkanContractRent, setSkanContractRent] = useState<File | null>(null);
     const [AvailabilityContract, setAvailabilityContract] = useState<boolean>(false);
-    const [Continuation, setContinuation] = useState<boolean>(false);
 
     const isValidForm = () => {
       const formValid = /^\d{10}$/.test(formValues.inn)
@@ -55,9 +54,6 @@ export default function LimitedLiabilityCompany(){
         && SkanOgrnip 
         && SkanResponseEgrip 
         && (SkanContractRent || AvailabilityContract);
-    };
-    const isMainInfo = () => {
-      return !Continuation;
     };
 
     const isAvailabilityContract = () => {
