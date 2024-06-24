@@ -1,0 +1,112 @@
+.custom-paragraph{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+.custom-label
+{
+    margin-bottom: 5px;
+}
+.custom-checkbox
+{
+    margin-top: 40px;
+}
+.custom-picture
+{
+    margin-right: 10px;
+}
+.custom-label-checkbox
+{
+    margin-top: 38px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+.custom-message-error{
+    color:red;
+    font-size: 10px;
+    margin-top: 5px;
+}
+.custom-button-right {
+    display: block;
+    margin-left: auto;
+    margin-top: 1rem;
+}
+.button-add-requesites{
+    color: rgb(0, 140, 255);
+    font-style:normal;
+    cursor: default;
+
+}
+.button-add-requesites :hover{
+    cursor: pointer;
+    color: rgb(0, 204, 255);
+}
+.button-remove-requesites{
+    color: red;
+    font-style:normal;
+    cursor: default;
+
+}
+.button-remove-requesites :hover{
+    cursor: pointer;
+    color: rgb(253, 129, 129);
+}
+.custom-picture-info
+{
+    color: rgb(0, 140, 255);
+    margin-right: 10px;
+}
+.popup-one {
+    position: fixed;
+    background-color: #e1f2fd;
+    padding: 20px;
+    border: 1px solid #39adfa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    transform: translate(235%, -60%);
+  }
+
+  .popup-text-one {
+    text-align: center;
+    display: block;
+    font-size: 15px;
+    color: #000000;
+  }
+  .popup-two {
+    position: fixed;
+    background-color: #e1f2fd;
+    padding: 20px;
+    border: 1px solid #39adfa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    transform: translate(235%, -60%);
+  }
+
+  .popup-text-two {
+    text-align: center;
+    display: block;
+    font-size: 15px;
+    color: #000000;
+  }
+  .input-with-button {
+    position: relative;
+}
+
+.input-button {
+    position: absolute;
+    right: 40px; /* Adjust the right position as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px 10px;
+    color: #39adfa;
+    cursor: pointer;
+}
+
+.form-control {
+    padding-right: 40px; /* Adjust the padding to make space for the button */
+}
+
+  
+  

@@ -1,6 +1,7 @@
-import { GetInfoByInn } from "@/app/shared/models/formModels/getInfoByInnModel";
+import { GetInfoByInn } from "@/app/shared/models/form-models/getInfoByInnModel";
 import { BusinessmanService } from "@/app/shared/services/businessman-service";
 import Requesites from "../requesites-page-component/requesites-page.component";
+import { CreateBuisnessman } from "@/app/shared/models/form-models/createBuisnessmanModel";
 
 const service = new BusinessmanService()
 
@@ -55,6 +56,12 @@ export class LimitedLiabilityCompanyEvents {
                 errorMessage: 'ИНН должен состоять из 10 символов'
             }));
         }
+        if(inn.length > 10){
+            formElements(prevState => ({
+                ...prevState,
+                errorMessage: 'ИНН должен состоять из 10 символов'
+            }));
+        }
         if(inn.length < 10 && !parseInt(inn)){
             formElements(prevState => ({
                 ...prevState,
@@ -69,9 +76,16 @@ export class LimitedLiabilityCompanyEvents {
         }
     }
 
-    getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode>>) {
-        return(
-            setSelectedComponent(<Requesites/>)
-        )
+    getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
+        setSelectedComponent((prevState) => [...prevState, <Requesites />]);
+      }
+
+    deleteRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
+      setSelectedComponent((prevState) => {
+        if (prevState.length === 0) {
+          return prevState;
+        }
+        return prevState.slice(0, prevState.length - 1);
+      });
     }
 }

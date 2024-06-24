@@ -1,12 +1,33 @@
 import { useState } from "react";
 import { LimitedLiabilityCompanyEvents } from "./limitedLiability-company-page-events"
-import { GetInfoByInn } from "@/app/shared/models/formModels/getInfoByInnModel";
+import { GetInfoByInn } from "@/app/shared/models/form-models/getInfoByInnModel";
 import "./limitedLiability-company-page.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { CreateBuisnessman } from "@/app/shared/models/form-models/createBuisnessmanModel";
+
+// Используйте компонент FontAwesomeIcon
+
+
 
 const getDataEvent = new LimitedLiabilityCompanyEvents()
 
 export default function LimitedLiabilityCompany(){
-    const [requesitesForm, setrequesitesForm] = useState<React.ReactNode>(null);
+    const [Buisnessman, setBuisnessman] = useState<CreateBuisnessman>({
+      inn: '',
+      fullName: '',
+      shortName: '',
+      registrationNumber: '',
+      registrationDate: new Date,
+      SkanInn: undefined,
+      SkanOgrnip: undefined,
+      SkanResponseEgrip: undefined,
+      SkanContractRent: undefined,
+      AvailabilityContract: false,
+      requesitesBanks:[] 
+    });
+
+    const [requesitesForm, setrequesitesForm] = useState<React.ReactNode[]>([]);
     const [formValues, setFormValues] = useState<GetInfoByInn>({
         inn: '',
         fullName: '',
@@ -21,8 +42,8 @@ export default function LimitedLiabilityCompany(){
     const [SkanResponseEgrip, setSkanResponseEgrip] = useState<File | null>(null);
     const [SkanContractRent, setSkanContractRent] = useState<File | null>(null);
     const [AvailabilityContract, setAvailabilityContract] = useState<boolean>(false);
+    const [Continuation, setContinuation] = useState<boolean>(false);
 
-    // Функция для проверки, прикреплён ли файл
     const isValidForm = () => {
       const formValid = /^\d{10}$/.test(formValues.inn)
         && formValues.fullName 
@@ -34,6 +55,9 @@ export default function LimitedLiabilityCompany(){
         && SkanOgrnip 
         && SkanResponseEgrip 
         && (SkanContractRent || AvailabilityContract);
+    };
+    const isMainInfo = () => {
+      return !Continuation;
     };
 
     const isAvailabilityContract = () => {
@@ -97,11 +121,11 @@ export default function LimitedLiabilityCompany(){
                 <div className="col-2">
                   <label className="form-text custom-label">ИНН*</label>
                   <input
-                    value={formValues.inn}
+                    defaultValue={formValues.inn}
                     name="Inn"
                     onChange={(e) => {
-                        getDataEvent.getData(e.target.value, setFormValues);
-                        setFormValues({ ...formValues, inn: e.target.value })}} 
+                        getDataEvent.getData(e.target.value, setFormValues)
+                        }} 
                     className="form-control"
                     placeholder="xxxxxxxxxx"
                   />
@@ -228,7 +252,7 @@ export default function LimitedLiabilityCompany(){
                   <label className="form-text custom-label-checkbox">Нет договора</label>
                 </div>
               </div>
-              {requesitesForm === null && (
+              {requesitesForm.length === 0 && (
                  <button
                    className="btn btn-primary custom-button-right"
                    onClick={() => getDataEvent.getRequesitesForm(setrequesitesForm)}
@@ -237,7 +261,27 @@ export default function LimitedLiabilityCompany(){
                    Далее
                  </button>
                )}
-            {requesitesForm}
+            {requesitesForm.map((item, index) => (
+              <div key={index}>{item}</div>
+            ))}
+
+            {requesitesForm.length > 0 && (
+              <div className="row">
+                <div className="col-3">
+            <p className='button-add-requesites'
+               onClick={() => getDataEvent.getRequesitesForm(setrequesitesForm)}>
+                <i className="button-add-requesites">
+                <FontAwesomeIcon className="custom-picture" icon={faPlus}/>Добавить ещё один банк</i></p>
+               </div>
+               {requesitesForm.length > 1 && (
+               <div className="col-3">
+            <p className='button-remove-requesites'
+               onClick={() => getDataEvent.deleteRequesitesForm(setrequesitesForm)}>
+                <i className="button-remove-requesites">
+                  <FontAwesomeIcon className="custom-picture" icon={faMinus} />Удалить банк</i></p>
+            </div>)}
+            </div>
+               )}
             </form>
         </div>
     )

@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+/* app.css или index.css */
+// index.js или App.js
 
 import type { Metadata } from "next";
 
