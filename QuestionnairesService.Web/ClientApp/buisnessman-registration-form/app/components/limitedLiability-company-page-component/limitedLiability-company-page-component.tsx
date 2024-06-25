@@ -7,7 +7,7 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import {  Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getBuisnessman } from "@/app/shared/stores/buisnessman-store/buisnessman.slice"
+import { setBuisnessmanInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice"
 
 // Используйте компонент FontAwesomeIcon
 
@@ -24,7 +24,7 @@ export default function LimitedLiabilityCompany(){
     Buisnessman.shortName = formValues.shortName;
     Buisnessman.registrationNumber = formValues.registrationNumber;
     //Buisnessman.registrationDate = formValues.registrationDate;
-    dispatch(getBuisnessman(Buisnessman))};
+    dispatch(setBuisnessmanInfo(Buisnessman))};
 
     const [Buisnessman, setBuisnessman] = useState<Buisnessman>({
       inn: '',
