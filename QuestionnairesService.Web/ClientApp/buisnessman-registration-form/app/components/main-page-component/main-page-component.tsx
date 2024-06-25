@@ -4,6 +4,8 @@ import { BuisnessmanType } from "@/app/shared/models/enums/BuisnessmanType";
 import { MainEvents } from './main-page-events';
 import React, { useState } from "react";
 import "./main-page.css"
+import { Provider } from 'react-redux';
+import buisnessmanStore from "@/app/shared/stores/buisnessman-store/buisnessman.store";
 
 const selectEvent = new MainEvents()
 
@@ -11,6 +13,8 @@ export default function Main(){
   const [selectedComponent, setSelectedComponent] = useState<React.ReactNode>(null);
 
   return (
+    
+    <Provider store={buisnessmanStore}>
     <div className="row">
       <div className="col-4">
       <p className="custom-paragraph">Форма собственности</p>
@@ -31,5 +35,7 @@ export default function Main(){
       </div>
       {selectedComponent}
     </div>
+    
+    </Provider>
   );
 }

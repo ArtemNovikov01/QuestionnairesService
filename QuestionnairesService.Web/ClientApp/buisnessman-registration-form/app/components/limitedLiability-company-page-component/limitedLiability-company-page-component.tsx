@@ -4,7 +4,10 @@ import { GetInfoByInn } from "@/app/shared/models/form-models/getInfoByInnModel"
 import "./limitedLiability-company-page.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { CreateBuisnessman } from "@/app/shared/models/form-models/createBuisnessmanModel";
+import {  Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getBuisnessman } from "@/app/shared/stores/buisnessman-store/buisnessman.slice"
 
 // Используйте компонент FontAwesomeIcon
 
@@ -13,12 +16,22 @@ import { CreateBuisnessman } from "@/app/shared/models/form-models/createBuisnes
 const getDataEvent = new LimitedLiabilityCompanyEvents()
 
 export default function LimitedLiabilityCompany(){
-    const [Buisnessman, setBuisnessman] = useState<CreateBuisnessman>({
+  const buisnesman = useSelector(state => state);
+  const dispatch = useDispatch();
+  const getBuisnessmanModel = () => {
+    Buisnessman.inn = formValues.inn;
+    Buisnessman.fullName = formValues.fullName;
+    Buisnessman.shortName = formValues.shortName;
+    Buisnessman.registrationNumber = formValues.registrationNumber;
+    //Buisnessman.registrationDate = formValues.registrationDate;
+    dispatch(getBuisnessman(Buisnessman))};
+
+    const [Buisnessman, setBuisnessman] = useState<Buisnessman>({
       inn: '',
       fullName: '',
       shortName: '',
       registrationNumber: '',
-      registrationDate: new Date,
+      registrationDate: undefined,
       SkanInn: undefined,
       SkanOgrnip: undefined,
       SkanResponseEgrip: undefined,
@@ -28,6 +41,7 @@ export default function LimitedLiabilityCompany(){
     });
 
     const [requesitesForm, setrequesitesForm] = useState<React.ReactNode[]>([]);
+
     const [formValues, setFormValues] = useState<GetInfoByInn>({
         inn: '',
         fullName: '',
@@ -278,7 +292,10 @@ export default function LimitedLiabilityCompany(){
             </div>)}
             </div>
                )}
+               
             </form>
+            <button
+               onClick={getBuisnessmanModel}>Redux</button>
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import { CreateRequesitesBank } from "./createRequesitesBank";
 
-export class CreateBuisnessman{
+
+export class Buisnessman{
     public inn!: string;
     public fullName?: string;
     public shortName?: string;

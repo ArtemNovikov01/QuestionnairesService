@@ -1,10 +1,10 @@
 import { GetInfoByInn } from "@/app/shared/models/form-models/getInfoByInnModel";
 import { BusinessmanService } from "@/app/shared/services/businessman-service";
 import Requesites from "../requesites-page-component/requesites-page.component";
-import { CreateBuisnessman } from "@/app/shared/models/form-models/createBuisnessmanModel";
+
+
 
 const service = new BusinessmanService()
-
 export class LimitedLiabilityCompanyEvents {
     public registrationDate?:Date;
 

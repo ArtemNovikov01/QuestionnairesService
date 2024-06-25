@@ -5,7 +5,6 @@ import { RequesitesEvents } from "./requesites-page-events";
 import "./requesites-page.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { CreateBuisnessman } from "@/app/shared/models/form-models/createBuisnessmanModel";
 
 const getDataEvent = new RequesitesEvents()
 
