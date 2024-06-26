@@ -5,15 +5,11 @@ import { RequesitesEvents } from "./requesites-page-events";
 import "./requesites-page.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from "react-redux";
-import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
-import { setRequesitesInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice";
 
 const getDataEvent = new RequesitesEvents()
 
-export default function Requesites(){
-  
-  const dispatch = useDispatch();
+export default function Requesites(props: { index: number }){
+    const index = props.index;
     const [HintOne, GetHintOne] = useState<boolean>(false)
     const [HintTwo, GetHintTwo] = useState<boolean>(false)
     const [formValues, setFormValues] = useState<GetInfoByBin>({
@@ -24,23 +20,18 @@ export default function Requesites(){
       });
       
 const [PaymentAccount, setPaymentAccount] = useState('');
-let requesites: CreateRequesitesBank;
 
-requesites = {
-  bin: formValues.bin,
-  nameBankBranch: formValues.nameBankBranch,
-  correspondentAccount: formValues.correspondentAccount,
-  paymentAccount: PaymentAccount
-};
-
-const getBuisnessmanModel = () => {
-   dispatch(setRequesitesInfo(requesites));
-};
+// requesites = {
+//   bin: formValues.bin,
+//   nameBankBranch: formValues.nameBankBranch,
+//   correspondentAccount: formValues.correspondentAccount,
+//   paymentAccount: PaymentAccount
+// };
 
   const [ErrorMessage, setErrorMessage] = useState('');
     return(
         <div className="container-fluid">
-            <p  onClick={getBuisnessmanModel}className="custom-paragraph">Банковские реквизиты</p>
+            <p className="custom-paragraph">Банковские реквизиты</p>
               <div className="row">
                 <div className="col-4">
                   <label className="form-text custom-label">БИК*</label>
@@ -48,7 +39,7 @@ const getBuisnessmanModel = () => {
                     name="Bin"
                     defaultValue={formValues.bin}
                     onChange={(e) =>{
-                      getDataEvent.getData(e.target.value, setFormValues);}}
+                      getDataEvent.getData(index, e.target.value, setFormValues);}}
                     className="form-control"
                     placeholder="xxxxxxxxx"
                   />

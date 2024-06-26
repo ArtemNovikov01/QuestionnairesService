@@ -254,7 +254,10 @@ export default function LimitedLiabilityCompany(){
               {requesitesForm.length === 0 && (
                  <button
                    className="btn btn-primary custom-button-right"
-                   onClick={() => getDataEvent.getRequesitesForm(setrequesitesForm)}
+                   onClick={() => {
+                    getBuisnessmanModel;
+                    getDataEvent.getRequesitesForm(setrequesitesForm);
+                   }}
                    disabled={!isValidForm()}
                  >
                    Далее
@@ -283,8 +286,6 @@ export default function LimitedLiabilityCompany(){
                )}
                
             </form>
-            <button
-               onClick={getBuisnessmanModel}>Redux</button>
         </div>
     )
 }

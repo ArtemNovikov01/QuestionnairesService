@@ -1,9 +1,15 @@
 import { GetInfoByBin } from "@/app/shared/models/form-models/getInfoByBinModel";
 import { BusinessmanService } from "@/app/shared/services/businessman-service";
+import { useDispatch } from "react-redux";
+import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
+import { setRequesitesInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice";
 
 const service = new BusinessmanService()
+const dispatch = useDispatch();
 
+let requesites: CreateRequesitesBank;
 export class RequesitesEvents {
+    
     getHint(hint: React.Dispatch<React.SetStateAction<boolean>>){
         hint(true);
     }
@@ -29,7 +35,7 @@ export class RequesitesEvents {
         paymentAccountFromForm(paymentAccount);
     }
 
-    async getData(bin: string, formElements: React.Dispatch<React.SetStateAction<GetInfoByBin>>){
+    async getData(indexComponent: number, bin: string, formElements: React.Dispatch<React.SetStateAction<GetInfoByBin>>){
         if (/^\d{9}$/.test(bin)){
             const data = await service.getDataByBin(bin);
 
@@ -40,6 +46,14 @@ export class RequesitesEvents {
                 correspondentAccount: data.correspondentAccount,
                 errorMessage: data.errorMessage
             }));
+            requesites = {
+                   bin: formValues.bin,
+                   nameBankBranch: formValues.nameBankBranch,
+                   correspondentAccount: formValues.correspondentAccount,
+                   paymentAccount: PaymentAccount
+                 };
+
+            dispatch(setRequesitesInfo(requesites));
         }
         if(!parseInt(bin)){
             formElements(prevState => ({

@@ -40,10 +40,6 @@ const buisnessmanSlice = createSlice({
             }
             console.log(state.buisnessman)
         },
-        // setRequesitesInfo(state, action) {
-        //     state.buisnessman.requesitesBanks = [...state.buisnessman.requesitesBanks, action.payload];
-        //     console.log(state.buisnessman)
-        //   },
 
         setBuisnessmanInfo(state, action) {
             state.buisnessman = {
