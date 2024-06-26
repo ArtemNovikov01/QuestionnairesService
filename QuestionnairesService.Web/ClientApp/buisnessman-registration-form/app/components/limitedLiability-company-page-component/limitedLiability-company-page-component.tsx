@@ -16,29 +16,18 @@ import { setBuisnessmanInfo } from "@/app/shared/stores/buisnessman-store/buisne
 const getDataEvent = new LimitedLiabilityCompanyEvents()
 
 export default function LimitedLiabilityCompany(){
-  const buisnesman = useSelector(state => state);
   const dispatch = useDispatch();
-  const getBuisnessmanModel = () => {
-    Buisnessman.inn = formValues.inn;
-    Buisnessman.fullName = formValues.fullName;
-    Buisnessman.shortName = formValues.shortName;
-    Buisnessman.registrationNumber = formValues.registrationNumber;
-    //Buisnessman.registrationDate = formValues.registrationDate;
-    dispatch(setBuisnessmanInfo(Buisnessman))};
-
-    const [Buisnessman, setBuisnessman] = useState<Buisnessman>({
-      inn: '',
-      fullName: '',
-      shortName: '',
-      registrationNumber: '',
-      registrationDate: undefined,
-      SkanInn: undefined,
-      SkanOgrnip: undefined,
-      SkanResponseEgrip: undefined,
-      SkanContractRent: undefined,
-      AvailabilityContract: false,
-      requesitesBanks:[] 
-    });
+  
+    const getBuisnessmanModel = () => {
+      dispatch(setBuisnessmanInfo({
+        ...Buisnessman,
+        inn: formValues.inn,
+        fullName: formValues.fullName,
+        shortName: formValues.shortName,
+        registrationNumber: formValues.registrationNumber,
+        registrationDate: formValues.registrationDate?.toISOString(),
+      }));
+    };
 
     const [requesitesForm, setrequesitesForm] = useState<React.ReactNode[]>([]);
 
@@ -64,10 +53,10 @@ export default function LimitedLiabilityCompany(){
         && /^\d{13}$/.test(formValues.registrationNumber)
         && formValues.registrationDate
       return formValid
-        && SkanInn 
-        && SkanOgrnip 
-        && SkanResponseEgrip 
-        && (SkanContractRent || AvailabilityContract);
+        // && SkanInn 
+        // && SkanOgrnip 
+        // && SkanResponseEgrip 
+        // && (SkanContractRent || AvailabilityContract);
     };
 
     const isAvailabilityContract = () => {

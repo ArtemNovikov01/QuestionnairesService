@@ -5,22 +5,15 @@ import { RequesitesEvents } from "./requesites-page-events";
 import "./requesites-page.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setBuisnessmanInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice"
-import { BuisnessmanState } from "@/app/shared/stores/buisnessman-store/buisnessman-state-interface";
+import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
+import { setRequesitesInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice";
 
 const getDataEvent = new RequesitesEvents()
 
 export default function Requesites(){
   
   const dispatch = useDispatch();
-    const buisnessmanState = useSelector<BuisnessmanState, BuisnessmanState['buisnessman']>(
-      (state) => state.buisnessman
-    );
-    console.log("В другом компоненте");
-    console.log(buisnessmanState);
-
     const [HintOne, GetHintOne] = useState<boolean>(false)
     const [HintTwo, GetHintTwo] = useState<boolean>(false)
     const [formValues, setFormValues] = useState<GetInfoByBin>({
@@ -29,12 +22,25 @@ export default function Requesites(){
         correspondentAccount: '',
         errorMessage:''
       });
+      
+const [PaymentAccount, setPaymentAccount] = useState('');
+let requesites: CreateRequesitesBank;
 
-      const [PaymentAccount, setPaymentAccount] = useState('');
-      const [ErrorMessage, setErrorMessage] = useState('');
+requesites = {
+  bin: formValues.bin,
+  nameBankBranch: formValues.nameBankBranch,
+  correspondentAccount: formValues.correspondentAccount,
+  paymentAccount: PaymentAccount
+};
+
+const getBuisnessmanModel = () => {
+   dispatch(setRequesitesInfo(requesites));
+};
+
+  const [ErrorMessage, setErrorMessage] = useState('');
     return(
         <div className="container-fluid">
-            <p className="custom-paragraph">Банковские реквизиты</p>
+            <p  onClick={getBuisnessmanModel}className="custom-paragraph">Банковские реквизиты</p>
               <div className="row">
                 <div className="col-4">
                   <label className="form-text custom-label">БИК*</label>
@@ -117,3 +123,4 @@ export default function Requesites(){
         </div>
     )
 }
+

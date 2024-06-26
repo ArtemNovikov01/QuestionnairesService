@@ -6,7 +6,7 @@ export class Buisnessman{
     public fullName?: string;
     public shortName?: string;
     public registrationNumber!: string;
-    public registrationDate?: Date;
+    public registrationDate?: string;
     public SkanInn?: File;
     public SkanOgrnip?: File;
     public SkanResponseEgrip?: File;
