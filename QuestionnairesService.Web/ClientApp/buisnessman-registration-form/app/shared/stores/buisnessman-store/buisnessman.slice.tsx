@@ -25,12 +25,14 @@ const buisnessmanSlice = createSlice({
         },
     },
     reducers:{
-        setRequesitesInfo(state, action) {
+        addRequesitesInfo(state, action) {
             if(state.buisnessman.requesitesBanks.length === 1 && state.buisnessman.requesitesBanks[0].bin === ''){
+                console.log(state.buisnessman);
                 state.buisnessman = {
                     ...state.buisnessman,
                     requesitesBanks:[action.payload]
                 }
+                console.log(state.buisnessman);
             }
             else{
                 state.buisnessman = {
@@ -38,7 +40,22 @@ const buisnessmanSlice = createSlice({
                     requesitesBanks:[...state.buisnessman.requesitesBanks, action.payload]
                 }
             }
-            console.log(state.buisnessman)
+        },
+//ToDo Доделать метод записи
+        setRequesitesInfo(state, action) {
+            console.log(state.buisnessman);
+            
+            state.buisnessman = {
+                ...state.buisnessman,
+                requesitesBanks[action.payload.index] ={
+                    bin: action.payload.bin,
+                    nameBankBranch: action.payload.nameBankBranch,
+                    correspondentAccount: action.payload.correspondentAccount,
+                    paymentAccount: action.payload.paymentAccount
+
+                }
+            }
+            console.log(state.buisnessman);
         },
 
         setBuisnessmanInfo(state, action) {
@@ -55,11 +72,10 @@ const buisnessmanSlice = createSlice({
                 SkanContractRent: action.payload.SkanContractRent,
                 AvailabilityContract: action.payload.AvailabilityContract,
             };
-            console.log(state.buisnessman);
         }
     }
 });
 
-export const {setRequesitesInfo, setBuisnessmanInfo} = buisnessmanSlice.actions;
+export const {setRequesitesInfo,addRequesitesInfo, setBuisnessmanInfo} = buisnessmanSlice.actions;
 
 export default buisnessmanSlice.reducer;

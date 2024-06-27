@@ -6,7 +6,7 @@ import Requesites from "../requesites-page-component/requesites-page.component";
 
 const service = new BusinessmanService()
 export class LimitedLiabilityCompanyEvents {
-    public static indexComponent : number = 0;
+    //public static indexComponent : number = 0;
     public registrationDate?:Date;
 
     setFile(file: File | null, fileFromForm: React.Dispatch<React.SetStateAction<File | null>>) {
@@ -77,9 +77,11 @@ export class LimitedLiabilityCompanyEvents {
         }
     }
 
-    static getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
-        setSelectedComponent((prevState) => [...prevState, <Requesites index ={this.indexComponent}/>]);
-        this.indexComponent++;
+    getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
+        setSelectedComponent((prevState) => {
+          const newState = [...prevState, <Requesites index={prevState.length}/>];
+          return newState;
+        });
       }
 
     deleteRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {

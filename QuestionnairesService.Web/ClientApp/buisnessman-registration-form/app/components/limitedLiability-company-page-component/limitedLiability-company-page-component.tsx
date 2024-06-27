@@ -52,11 +52,11 @@ export default function LimitedLiabilityCompany(){
         && formValues.shortName 
         && /^\d{13}$/.test(formValues.registrationNumber)
         && formValues.registrationDate
-      return formValid
-        // && SkanInn 
-        // && SkanOgrnip 
-        // && SkanResponseEgrip 
-        // && (SkanContractRent || AvailabilityContract);
+      return formValid;
+        //  && SkanInn 
+        //  && SkanOgrnip 
+        //  && SkanResponseEgrip 
+        //  && (SkanContractRent || AvailabilityContract);
     };
 
     const isAvailabilityContract = () => {
@@ -255,7 +255,7 @@ export default function LimitedLiabilityCompany(){
                  <button
                    className="btn btn-primary custom-button-right"
                    onClick={() => {
-                    getBuisnessmanModel;
+                    getBuisnessmanModel();
                     getDataEvent.getRequesitesForm(setrequesitesForm);
                    }}
                    disabled={!isValidForm()}

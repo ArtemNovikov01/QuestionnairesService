@@ -5,10 +5,17 @@ import { RequesitesEvents } from "./requesites-page-events";
 import "./requesites-page.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from "react-redux";
+import { Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
+import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
+import { addRequesitesInfo, setRequesitesInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice";
 
 const getDataEvent = new RequesitesEvents()
-
+let eteration = 0; 
+let requesites: CreateRequesitesBank;
 export default function Requesites(props: { index: number }){
+  
+ const dispatch = useDispatch();
     const index = props.index;
     const [HintOne, GetHintOne] = useState<boolean>(false)
     const [HintTwo, GetHintTwo] = useState<boolean>(false)
@@ -21,12 +28,30 @@ export default function Requesites(props: { index: number }){
       
 const [PaymentAccount, setPaymentAccount] = useState('');
 
-// requesites = {
-//   bin: formValues.bin,
-//   nameBankBranch: formValues.nameBankBranch,
-//   correspondentAccount: formValues.correspondentAccount,
-//   paymentAccount: PaymentAccount
-// };
+ requesites = {
+   bin: formValues.bin,
+   nameBankBranch: formValues.nameBankBranch,
+   correspondentAccount: formValues.correspondentAccount,
+   paymentAccount: PaymentAccount
+ };
+
+                      
+const buisnessman = useSelector<Buisnessman,Buisnessman>(state => state);
+
+const CreateRequesites = (requesites:CreateRequesitesBank) => {
+  if(requesites.bin != '' && eteration === 0){
+    dispatch(addRequesitesInfo(requesites));
+  }
+  else{
+    dispatch(setRequesitesInfo({
+      bin:requesites.bin,
+      nameBankBranch: requesites.nameBankBranch,
+      correspondentAccount: requesites.correspondentAccount,
+      paymentAccount: requesites.paymentAccount,
+      index: index
+    }));
+  }
+}
 
   const [ErrorMessage, setErrorMessage] = useState('');
     return(
@@ -38,8 +63,11 @@ const [PaymentAccount, setPaymentAccount] = useState('');
                   <input
                     name="Bin"
                     defaultValue={formValues.bin}
-                    onChange={(e) =>{
-                      getDataEvent.getData(index, e.target.value, setFormValues);}}
+                    onChange={async (e) =>{
+                      const requesites = await getDataEvent.getData(index, e.target.value, setFormValues);
+                      CreateRequesites(requesites);
+                      eteration++;
+                      }}
                     className="form-control"
                     placeholder="xxxxxxxxx"
                   />
@@ -110,7 +138,6 @@ const [PaymentAccount, setPaymentAccount] = useState('');
                   </div>
                 </div>
               </div>
-            <p >Redux2</p>
         </div>
     )
 }

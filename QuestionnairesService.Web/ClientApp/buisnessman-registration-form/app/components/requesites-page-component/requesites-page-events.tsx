@@ -3,9 +3,19 @@ import { BusinessmanService } from "@/app/shared/services/businessman-service";
 import { useDispatch } from "react-redux";
 import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
 import { setRequesitesInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice";
+import { useSelector } from "react-redux";
+import { Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
 
 const service = new BusinessmanService()
-const dispatch = useDispatch();
+
+// const GetRequesites = (index:number) =>{
+//     const a = useSelector<Buisnessman,CreateRequesitesBank>(state => state.requesitesBanks[index]);
+// }
+
+// const dispatch = useDispatch();
+// const CreateRequesites = () =>{
+//     dispatch(setRequesitesInfo(requesites));
+// }
 
 let requesites: CreateRequesitesBank;
 export class RequesitesEvents {
@@ -35,10 +45,9 @@ export class RequesitesEvents {
         paymentAccountFromForm(paymentAccount);
     }
 
-    async getData(indexComponent: number, bin: string, formElements: React.Dispatch<React.SetStateAction<GetInfoByBin>>){
+    async getData(indexComponent: number, bin: string, formElements: React.Dispatch<React.SetStateAction<GetInfoByBin>>):Promise<CreateRequesitesBank>{
         if (/^\d{9}$/.test(bin)){
             const data = await service.getDataByBin(bin);
-
             formElements(prevState => ({
                 ...prevState,
                 bin: data.bin,
@@ -47,13 +56,12 @@ export class RequesitesEvents {
                 errorMessage: data.errorMessage
             }));
             requesites = {
-                   bin: formValues.bin,
-                   nameBankBranch: formValues.nameBankBranch,
-                   correspondentAccount: formValues.correspondentAccount,
-                   paymentAccount: PaymentAccount
-                 };
-
-            dispatch(setRequesitesInfo(requesites));
+                     bin: data.bin,
+                     nameBankBranch: data.nameBankBranch,
+                     correspondentAccount: data.correspondentAccount,
+                     paymentAccount: ''
+                   };
+            return requesites;
         }
         if(!parseInt(bin)){
             formElements(prevState => ({
@@ -79,5 +87,6 @@ export class RequesitesEvents {
                 errorMessage: ''
             }));
         }
+        return requesites;
     }
 }
