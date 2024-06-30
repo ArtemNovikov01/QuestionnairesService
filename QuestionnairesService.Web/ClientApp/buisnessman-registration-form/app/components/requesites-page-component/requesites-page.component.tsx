@@ -6,7 +6,6 @@ import "./requesites-page.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
-import { Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
 import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
 import { addRequesitesInfo, setRequesitesInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice";
 
@@ -34,9 +33,6 @@ const [PaymentAccount, setPaymentAccount] = useState('');
    correspondentAccount: formValues.correspondentAccount,
    paymentAccount: PaymentAccount
  };
-
-                      
-const buisnessman = useSelector<Buisnessman,Buisnessman>(state => state);
 
 const CreateRequesites = (requesites:CreateRequesitesBank) => {
   if(requesites.bin != '' && eteration === 0){
@@ -106,7 +102,12 @@ const CreateRequesites = (requesites:CreateRequesitesBank) => {
                     value={PaymentAccount}
                     name="PaymentAccount"
                     onChange={(e) => {
-                        getDataEvent.setPaymentAccount(e.target.value, setPaymentAccount,setErrorMessage);}} 
+                        getDataEvent.setPaymentAccount(e.target.value, setPaymentAccount,setErrorMessage);
+                        requesites.paymentAccount = e.target.value
+                        if(e.target.value.length === 20){
+                          CreateRequesites(requesites);
+                          eteration++;
+                        }}} 
                     className="form-control"
                     placeholder="xxxxxxxxxxxxxxxxxxxx"
                   />
@@ -117,9 +118,9 @@ const CreateRequesites = (requesites:CreateRequesitesBank) => {
                   <div className="d-flex align-items-center flex-grow-1 input-with-button">
                     <input
                         value={formValues.correspondentAccount}
-                        onChange={(e) =>
+                        onChange={(e) =>{
                           setFormValues({ ...formValues, correspondentAccount: e.target.value })
-                        }
+                        }}
                       name="CorrespondentAccount"
                       className="form-control flex-grow-1"
                       type="text"

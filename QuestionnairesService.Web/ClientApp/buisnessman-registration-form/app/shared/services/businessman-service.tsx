@@ -1,8 +1,10 @@
+import { Buisnessman } from "../models/form-models/buisnessmanModel";
 import { GetInfoByBin } from "../models/form-models/getInfoByBinModel";
 import { GetInfoByInn } from "../models/form-models/getInfoByInnModel";
 
 export class BusinessmanService {
   baseApi: string = "http://localhost:5092/api/Businessman/";
+
   async getDataByInn(inn: string): Promise<GetInfoByInn> {
 
       const response = await fetch(this.baseApi + 'getInfoByInn', {
@@ -56,6 +58,32 @@ export class BusinessmanService {
     const data: GetInfoByBin = await response.json();
     return data;
   }
+//ToDo Разобраться почему форма не отправляется на сервер
+async createBuisnessman(newBuisnessman: Buisnessman) {
+  console.log(newBuisnessman);
+  const formData = new FormData();
+  formData.append('SkanINN', newBuisnessman.SkanInn!);
+  formData.append('SkanRegistrationNumber', newBuisnessman.SkanRegistrationNumber!);
+  formData.append('SkanExtractFromTax', newBuisnessman.SkanExtractFromTax!);
+  formData.append('SkanContractRent', newBuisnessman.SkanContractRent!);
+  formData.append('BuisnessmanInfo', JSON.stringify(newBuisnessman.buisnessmanInfo));
+
+  const entries = Array.from(formData.entries());
+entries.forEach(([key, value]) => {
+  console.log(`${key}: ${value}`);
+});
+
+  const response = await fetch(this.baseApi + 'createBusinessman', {
+    method: 'POST',
+    body: formData,
+    // headers: {
+    //   'Content-Type': 'multipart/form-data'
+    // }
+  });
+
+  return await response.json();
+}
+
 
   
 }

@@ -33,13 +33,16 @@ export class RequesitesEvents {
         if(!parseInt(paymentAccount)){
             errorMessage('Расчётный счёт должен состоять только из цифр')
         }
-        if((paymentAccount.length < 20 || paymentAccount.length > 20) && !parseInt(paymentAccount)){
+        if((paymentAccount.length != 20) && !parseInt(paymentAccount)){
             errorMessage('Расчётный счёт должен состоять только из цифр. Длина расчётного счёта должна быть 20 символов')
         }
-        if((paymentAccount.length < 20 || paymentAccount.length > 20) && parseInt(paymentAccount)){
+        if((paymentAccount.length != 20)){
             errorMessage('Длина расчётного счёта должена быть 20 символов')
         }
         if(paymentAccount.length === 0){
+            errorMessage('')
+        }
+        if(paymentAccount.length === 20){
             errorMessage('')
         }
         paymentAccountFromForm(paymentAccount);

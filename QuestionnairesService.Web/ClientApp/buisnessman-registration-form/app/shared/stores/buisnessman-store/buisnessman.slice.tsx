@@ -6,16 +6,12 @@ const buisnessmanSlice = createSlice({
     name:'buisnessman',
     initialState:{
         buisnessman: {
-             inn: '',
-             fullName: '',
-             shortName: '',
-             registrationNumber: '',
-             registrationDate: undefined,
-             SkanInn: undefined,
-             SkanOgrnip: undefined,
-             SkanResponseEgrip: undefined,
-             SkanContractRent: undefined,
-             AvailabilityContract: false,
+            //  inn: '',
+            //  fullName: '',
+            //  shortName: '',
+            //  registrationNumber: '',
+            //  registrationDate: undefined,
+            //  AvailabilityContract: false,
              requesitesBanks: [{
                 bin: '',
                 nameBankBranch: '',
@@ -27,12 +23,10 @@ const buisnessmanSlice = createSlice({
     reducers:{
         addRequesitesInfo(state, action) {
             if(state.buisnessman.requesitesBanks.length === 1 && state.buisnessman.requesitesBanks[0].bin === ''){
-                console.log(state.buisnessman);
                 state.buisnessman = {
                     ...state.buisnessman,
                     requesitesBanks:[action.payload]
                 }
-                console.log(state.buisnessman);
             }
             else{
                 state.buisnessman = {
@@ -41,41 +35,51 @@ const buisnessmanSlice = createSlice({
                 }
             }
         },
-//ToDo Доделать метод записи
+
         setRequesitesInfo(state, action) {
-            console.log(state.buisnessman);
-            
-            state.buisnessman = {
-                ...state.buisnessman,
-                requesitesBanks[action.payload.index] ={
-                    bin: action.payload.bin,
-                    nameBankBranch: action.payload.nameBankBranch,
-                    correspondentAccount: action.payload.correspondentAccount,
-                    paymentAccount: action.payload.paymentAccount
 
-                }
-            }
-            console.log(state.buisnessman);
-        },
-
-        setBuisnessmanInfo(state, action) {
-            state.buisnessman = {
-                ...state.buisnessman,
-                inn: action.payload.inn,
-                fullName: action.payload.fullName,
-                shortName: action.payload.shortName,
-                registrationNumber: action.payload.registrationNumber,
-                registrationDate: action.payload.registrationDate,
-                SkanInn: action.payload.SkanInn,
-                SkanOgrnip: action.payload.SkanOgrnip,
-                SkanResponseEgrip: action.payload.SkanResponseEgrip,
-                SkanContractRent: action.payload.SkanContractRent,
-                AvailabilityContract: action.payload.AvailabilityContract,
+            const updatedRequisites = [...state.buisnessman.requesitesBanks];
+            updatedRequisites[action.payload.index] = {
+              bin: action.payload.bin,
+              nameBankBranch: action.payload.nameBankBranch,
+              correspondentAccount: action.payload.correspo,
+              paymentAccount: action.payload.paymentAccount
             };
+        
+            state.buisnessman = {
+              ...state.buisnessman,
+              requesitesBanks: updatedRequisites
+            };
+          },
+
+        // setBuisnessmanInfo(state, action) {
+        //     state.buisnessman = {
+        //         ...state.buisnessman,
+        //         inn: action.payload.inn,
+        //         fullName: action.payload.fullName,
+        //         shortName: action.payload.shortName,
+        //         registrationNumber: action.payload.registrationNumber,
+        //         registrationDate: action.payload.registrationDate,
+        //         AvailabilityContract: action.payload.AvailabilityContract,
+        //     };
+        // },
+
+        deleteRequesites(state,action){
+            let updatedRequisites;
+            if(action.payload != 0){
+                updatedRequisites = state.buisnessman.requesitesBanks.slice(0, action.payload)
+            }
+            else{
+                updatedRequisites = state.buisnessman.requesitesBanks
+            }
+            state.buisnessman = {
+                ...state.buisnessman,
+                requesitesBanks:updatedRequisites
+            }
         }
     }
 });
 
-export const {setRequesitesInfo,addRequesitesInfo, setBuisnessmanInfo} = buisnessmanSlice.actions;
+export const {setRequesitesInfo,addRequesitesInfo,deleteRequesites} = buisnessmanSlice.actions;
 
 export default buisnessmanSlice.reducer;

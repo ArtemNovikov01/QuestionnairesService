@@ -3,7 +3,7 @@ using QuestionnairesService.Application.Services;
 
 namespace QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models
 {
-    [ModelBinder(BinderType = typeof(MetadataValueModelBinder))]
+    //[ModelBinder(BinderType = typeof(MetadataValueModelBinder))]
     public class BankDto
     {
         /// <summary>

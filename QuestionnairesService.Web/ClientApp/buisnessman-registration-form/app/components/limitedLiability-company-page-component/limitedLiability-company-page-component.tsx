@@ -4,10 +4,12 @@ import { GetInfoByInn } from "@/app/shared/models/form-models/getInfoByInnModel"
 import "./limitedLiability-company-page.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import {  Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { setBuisnessmanInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice"
+import { useDispatch, useSelector } from "react-redux";
+import { deleteRequesites } from "@/app/shared/stores/buisnessman-store/buisnessman.slice"
+import { Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
+import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
+import { BuisnessmanInfo } from "@/app/shared/models/form-models/buisnessmanInfoModel";
+import { BuisnessmanType } from "@/app/shared/models/enums/BuisnessmanType";
 
 // Используйте компонент FontAwesomeIcon
 
@@ -17,17 +19,17 @@ const getDataEvent = new LimitedLiabilityCompanyEvents()
 
 export default function LimitedLiabilityCompany(){
   const dispatch = useDispatch();
-  
-    const getBuisnessmanModel = () => {
-      dispatch(setBuisnessmanInfo({
-        ...Buisnessman,
-        inn: formValues.inn,
-        fullName: formValues.fullName,
-        shortName: formValues.shortName,
-        registrationNumber: formValues.registrationNumber,
-        registrationDate: formValues.registrationDate?.toISOString(),
-      }));
-    };
+  let requesitesBanks = useSelector<CreateRequesitesBank[],CreateRequesitesBank[]>(state => state);
+    // const getBuisnessmanModel = () => {
+    //   dispatch(setBuisnessmanInfo({
+    //     ...Buisnessman,
+    //     inn: formValues.inn,
+    //     fullName: formValues.fullName,
+    //     shortName: formValues.shortName,
+    //     registrationNumber: formValues.registrationNumber,
+    //     registrationDate: formValues.registrationDate?.toISOString(),
+    //   }));
+    // };
 
     const [requesitesForm, setrequesitesForm] = useState<React.ReactNode[]>([]);
 
@@ -255,7 +257,7 @@ export default function LimitedLiabilityCompany(){
                  <button
                    className="btn btn-primary custom-button-right"
                    onClick={() => {
-                    getBuisnessmanModel();
+                    //getBuisnessmanModel();
                     getDataEvent.getRequesitesForm(setrequesitesForm);
                    }}
                    disabled={!isValidForm()}
@@ -278,14 +280,36 @@ export default function LimitedLiabilityCompany(){
                {requesitesForm.length > 1 && (
                <div className="col-3">
             <p className='button-remove-requesites'
-               onClick={() => getDataEvent.deleteRequesitesForm(setrequesitesForm)}>
+               onClick={() => {
+                  let index = getDataEvent.deleteRequesitesForm(setrequesitesForm)
+                  dispatch(deleteRequesites(index))}}>
                 <i className="button-remove-requesites">
                   <FontAwesomeIcon className="custom-picture" icon={faMinus} />Удалить банк</i></p>
             </div>)}
             </div>
                )}
-               
             </form>
+
+            <button onClick={(e) => 
+              {console.log(requesitesBanks)
+                getDataEvent.createBuisnessman( {
+                ...Buisnessman,
+                buisnessmanInfo:{
+                  ...BuisnessmanInfo,
+                  buisnessmanType:BuisnessmanType.LimitedLiabilityCompany,
+                  inn: formValues.inn,
+                  fullName: formValues.fullName,
+                  shortName: formValues.shortName,
+                  registrationNumber: formValues.registrationNumber,
+                  registrationDate: formValues.registrationDate?.toString(),
+                  availabilityContract:AvailabilityContract,
+                  banks:requesitesBanks
+                },
+                SkanInn:SkanInn!,
+                SkanContractRent:SkanOgrnip!,
+                SkanRegistrationNumber:SkanOgrnip!,
+                SkanExtractFromTax:SkanResponseEgrip!,
+              })}}>Отправить</button>
         </div>
     )
 }

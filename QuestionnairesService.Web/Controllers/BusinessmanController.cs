@@ -19,7 +19,7 @@ public class BusinessmanController : ControllerBase
     }
 
     [HttpPost("createBusinessman")]
-    public async Task<CreateBusinessmanResponse> CreateBusinessman(CreateBusinessmanRequest newBuisnessman)
+    public async Task<CreateBusinessmanResponse> CreateBusinessman([FromForm]CreateBusinessmanRequest newBuisnessman)
     {
         await using Stream skanINNStream = newBuisnessman.SkanINN.OpenReadStream();
 

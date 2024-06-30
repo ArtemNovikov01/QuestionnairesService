@@ -1,6 +1,7 @@
 import { GetInfoByInn } from "@/app/shared/models/form-models/getInfoByInnModel";
 import { BusinessmanService } from "@/app/shared/services/businessman-service";
 import Requesites from "../requesites-page-component/requesites-page.component";
+import { Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
 
 
 
@@ -84,12 +85,27 @@ export class LimitedLiabilityCompanyEvents {
         });
       }
 
-    deleteRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
+    deleteRequesitesForm(
+      setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>
+    ): number{
+      let indexToRemove = 0;
       setSelectedComponent((prevState) => {
         if (prevState.length === 0) {
           return prevState;
+        } else if (prevState.length === 1) {
+          indexToRemove = 0;
+          return [];
+        } else {
+          indexToRemove = prevState.length - 1;
+          return prevState.filter((_, i) => i !== indexToRemove);
         }
-        return prevState.slice(0, prevState.length - 1);
       });
+      console.log(indexToRemove)
+      return indexToRemove;
+    };
+      
+    async createBuisnessman(buisnessman:Buisnessman){
+        await service.createBuisnessman(buisnessman);
     }
+      
 }
