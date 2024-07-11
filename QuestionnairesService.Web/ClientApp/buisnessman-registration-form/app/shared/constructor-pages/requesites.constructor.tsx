@@ -3,11 +3,16 @@ import Requesites from "@/app/components/requesites-page-component/requesites-pa
 export class RequesitesConstructor {
     getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
         setSelectedComponent((prevState) => {
+          console.log(prevState.length)
           const newState = [...prevState, <Requesites index={prevState.length}/>];
           return newState;
         });
     }
 
+    //ToDo разобраться почему возвращается index = 0
+    //ToDo Доработать валидацию файлов на сервере
+    //ToDo Сделать так чтобы на сервере была проверка галочки или файла
+    
     deleteRequesitesForm(
         setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>
       ): number{

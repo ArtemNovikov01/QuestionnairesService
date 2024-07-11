@@ -61,6 +61,7 @@ export class BusinessmanService {
 
 
   async createBuisnessman(newBuisnessman: Buisnessman) {
+    console.log(newBuisnessman);
     const formData = new FormData();
 
     if (newBuisnessman.SkanInn) {
@@ -93,13 +94,20 @@ export class BusinessmanService {
       formData.append(`BuisnessmanInfo[banks][${i}][paymentAccount]`, paymentAccount);
       formData.append(`BuisnessmanInfo[banks][${i}][correspondentAccount]`, correspondentAccount);
     }
-
+    
+  
     const response = await fetch(this.baseApi + 'createBusinessman', {
       method: 'POST',
       body: formData
     });
+    if (!response.ok) {
+      const errorText = await response.text();
+      const parsedData = JSON.parse(errorText);
+      alert(parsedData);
+    }
 
-    return await response.json();
+    const data: any = await response.json();
+    alert(data.buisnessmanId);
   }
   
 }

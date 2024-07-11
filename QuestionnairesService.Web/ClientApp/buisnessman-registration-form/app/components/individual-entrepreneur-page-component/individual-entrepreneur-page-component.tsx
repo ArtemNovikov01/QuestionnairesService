@@ -240,6 +240,7 @@ export default function IndividualEntrepreneur(){
                                    onClick={() => 
                                    {
                                       let index = constructorPage.deleteRequesitesForm(setrequesitesForm)
+                                      console.log(index)
                                       dispatch(deleteRequesites(index))
                                    }}>
                                    <i className="button-remove-requesites">
