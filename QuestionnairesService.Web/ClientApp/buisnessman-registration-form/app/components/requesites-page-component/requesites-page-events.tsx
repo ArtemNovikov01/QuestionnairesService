@@ -1,10 +1,6 @@
 import { GetInfoByBin } from "@/app/shared/models/form-models/getInfoByBinModel";
 import { BusinessmanService } from "@/app/shared/services/businessman-service";
-import { useDispatch } from "react-redux";
 import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
-import { setRequesitesInfo } from "@/app/shared/stores/buisnessman-store/buisnessman.slice";
-import { useSelector } from "react-redux";
-import { Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
 
 const service = new BusinessmanService()
 

@@ -1,6 +1,6 @@
 export class CreateRequesitesBank{
-    public bin!: string;
-    public nameBankBranch!: string;
-    public correspondentAccount!: string;
+    public bankCode!: string;
+    public branchOfficeName!: string;
     public paymentAccount!: string;
+    public correspondentAccount!: string;
 }

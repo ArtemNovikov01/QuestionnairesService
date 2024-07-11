@@ -1,4 +1,6 @@
+import { BuisnessmanInfo } from "../models/form-models/buisnessmanInfoModel";
 import { Buisnessman } from "../models/form-models/buisnessmanModel";
+import { CreateRequesitesBank } from "../models/form-models/createRequesitesBank";
 import { GetInfoByBin } from "../models/form-models/getInfoByBinModel";
 import { GetInfoByInn } from "../models/form-models/getInfoByInnModel";
 
@@ -58,32 +60,48 @@ export class BusinessmanService {
     const data: GetInfoByBin = await response.json();
     return data;
   }
-//ToDo Разобраться почему форма не отправляется на сервер
-async createBuisnessman(newBuisnessman: Buisnessman) {
-  console.log(newBuisnessman);
-  const formData = new FormData();
-  formData.append('SkanINN', newBuisnessman.SkanInn!);
-  formData.append('SkanRegistrationNumber', newBuisnessman.SkanRegistrationNumber!);
-  formData.append('SkanExtractFromTax', newBuisnessman.SkanExtractFromTax!);
-  formData.append('SkanContractRent', newBuisnessman.SkanContractRent!);
-  formData.append('BuisnessmanInfo', JSON.stringify(newBuisnessman.buisnessmanInfo));
-
-  const entries = Array.from(formData.entries());
-entries.forEach(([key, value]) => {
-  console.log(`${key}: ${value}`);
-});
-
-  const response = await fetch(this.baseApi + 'createBusinessman', {
-    method: 'POST',
-    body: formData,
-    // headers: {
-    //   'Content-Type': 'multipart/form-data'
-    // }
-  });
-
-  return await response.json();
-}
 
 
+  async createBuisnessman(newBuisnessman: Buisnessman) {
+    const formData = new FormData();
+
+    if (newBuisnessman.SkanInn) {
+      formData.append('SkanINN', newBuisnessman.SkanInn);
+    }
+    if (newBuisnessman.SkanRegistrationNumber) {
+      formData.append('SkanRegistrationNumber', newBuisnessman.SkanRegistrationNumber);
+    }
+    if (newBuisnessman.SkanExtractFromTax) {
+      formData.append('SkanExtractFromTax', newBuisnessman.SkanExtractFromTax);
+    }
+    if (newBuisnessman.SkanContractRent) {
+      formData.append('SkanContractRent', newBuisnessman.SkanContractRent);
+    }
+
+    const { buisnessmanType, fullName, shortName, inn, registrationNumber, registrationDate, availabilityContract, banks } = newBuisnessman.buisnessmanInfo;
+
+    formData.append('BuisnessmanInfo[buisnessmanType]', buisnessmanType.toString());
+    formData.append('BuisnessmanInfo[fullName]', fullName || '');
+    formData.append('BuisnessmanInfo[shortName]', shortName || '');
+    formData.append('BuisnessmanInfo[inn]', inn);
+    formData.append('BuisnessmanInfo[registrationNumber]', registrationNumber);
+    formData.append('BuisnessmanInfo[registrationDate]', registrationDate || '');
+    formData.append('BuisnessmanInfo[availabilityContract]', availabilityContract.toString());
+
+    for (let i = 0; i < banks.length; i++) {
+      const { bankCode, branchOfficeName, paymentAccount, correspondentAccount } = banks[i];
+      formData.append(`BuisnessmanInfo[banks][${i}][bankCode]`, bankCode);
+      formData.append(`BuisnessmanInfo[banks][${i}][branchOfficeName]`, branchOfficeName);
+      formData.append(`BuisnessmanInfo[banks][${i}][paymentAccount]`, paymentAccount);
+      formData.append(`BuisnessmanInfo[banks][${i}][correspondentAccount]`, correspondentAccount);
+    }
+
+    const response = await fetch(this.baseApi + 'createBusinessman', {
+      method: 'POST',
+      body: formData
+    });
+
+    return await response.json();
+  }
   
 }

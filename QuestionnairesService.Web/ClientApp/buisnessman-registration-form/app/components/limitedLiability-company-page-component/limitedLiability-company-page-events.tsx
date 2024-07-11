@@ -100,7 +100,6 @@ export class LimitedLiabilityCompanyEvents {
           return prevState.filter((_, i) => i !== indexToRemove);
         }
       });
-      console.log(indexToRemove)
       return indexToRemove;
     };
       

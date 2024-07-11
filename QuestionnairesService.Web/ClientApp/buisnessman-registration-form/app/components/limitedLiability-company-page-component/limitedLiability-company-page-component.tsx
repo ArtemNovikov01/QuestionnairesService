@@ -19,7 +19,9 @@ const getDataEvent = new LimitedLiabilityCompanyEvents()
 
 export default function LimitedLiabilityCompany(){
   const dispatch = useDispatch();
-  let requesitesBanks = useSelector<CreateRequesitesBank[],CreateRequesitesBank[]>(state => state);
+  let requesitesBanks = useSelector<RequesitesInterface, CreateRequesitesBank[]>(
+    (state) => state.buisnessman.buisnessman.requesitesBanks
+  );
     // const getBuisnessmanModel = () => {
     //   dispatch(setBuisnessmanInfo({
     //     ...Buisnessman,
@@ -291,8 +293,7 @@ export default function LimitedLiabilityCompany(){
             </form>
 
             <button onClick={(e) => 
-              {console.log(requesitesBanks)
-                getDataEvent.createBuisnessman( {
+              {getDataEvent.createBuisnessman( {
                 ...Buisnessman,
                 buisnessmanInfo:{
                   ...BuisnessmanInfo,

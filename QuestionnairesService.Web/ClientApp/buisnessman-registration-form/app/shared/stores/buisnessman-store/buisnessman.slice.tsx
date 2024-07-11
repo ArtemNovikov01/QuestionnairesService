@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Buisnessman } from "../../models/form-models/buisnessmanModel";
-import { CreateRequesitesBank } from "../../models/form-models/createRequesitesBank";
 
 const buisnessmanSlice = createSlice({
     name:'buisnessman',
@@ -13,16 +11,16 @@ const buisnessmanSlice = createSlice({
             //  registrationDate: undefined,
             //  AvailabilityContract: false,
              requesitesBanks: [{
-                bin: '',
-                nameBankBranch: '',
-                correspondentAccount: '',
-                paymentAccount:''
+                bankCode: '',
+                branchOfficeName: '',
+                paymentAccount:'',
+                correspondentAccount: ''
              }]
         },
     },
     reducers:{
         addRequesitesInfo(state, action) {
-            if(state.buisnessman.requesitesBanks.length === 1 && state.buisnessman.requesitesBanks[0].bin === ''){
+            if(state.buisnessman.requesitesBanks.length === 1 && state.buisnessman.requesitesBanks[0].bankCode === ''){
                 state.buisnessman = {
                     ...state.buisnessman,
                     requesitesBanks:[action.payload]
@@ -37,12 +35,11 @@ const buisnessmanSlice = createSlice({
         },
 
         setRequesitesInfo(state, action) {
-
             const updatedRequisites = [...state.buisnessman.requesitesBanks];
             updatedRequisites[action.payload.index] = {
-              bin: action.payload.bin,
-              nameBankBranch: action.payload.nameBankBranch,
-              correspondentAccount: action.payload.correspo,
+              bankCode: action.payload.bin,
+              branchOfficeName: action.payload.nameBankBranch,
+              correspondentAccount: action.payload.correspondentAccount,
               paymentAccount: action.payload.paymentAccount
             };
         

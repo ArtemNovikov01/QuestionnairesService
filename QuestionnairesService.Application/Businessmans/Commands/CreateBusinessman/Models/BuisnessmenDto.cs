@@ -26,6 +26,12 @@ namespace QuestionnairesService.Application.Businessmans.Commands.CreateBusiness
         /// </summary>
         public string RegistrationNumber { get; init; } = null!;
 
+
+        /// <summary>
+        ///     Дата регистрации.
+        /// </summary>
+        public string RegistrationDate { get; init; }
+
         /// <summary>
         ///     Наличие договора.
         /// </summary>
