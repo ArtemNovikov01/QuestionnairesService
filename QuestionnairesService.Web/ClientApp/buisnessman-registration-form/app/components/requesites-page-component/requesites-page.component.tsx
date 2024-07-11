@@ -28,20 +28,20 @@ export default function Requesites(props: { index: number }){
 const [PaymentAccount, setPaymentAccount] = useState('');
 
  requesites = {
-   bin: formValues.bin,
-   nameBankBranch: formValues.nameBankBranch,
+  bankCode: formValues.bin,
+  branchOfficeName: formValues.nameBankBranch,
    correspondentAccount: formValues.correspondentAccount,
    paymentAccount: PaymentAccount
  };
 
 const CreateRequesites = (requesites:CreateRequesitesBank) => {
-  if(requesites.bin != '' && eteration === 0){
+  if(requesites.bankCode != '' && eteration === 0){
     dispatch(addRequesitesInfo(requesites));
   }
   else{
     dispatch(setRequesitesInfo({
-      bin:requesites.bin,
-      nameBankBranch: requesites.nameBankBranch,
+      bin:requesites.bankCode,
+      nameBankBranch: requesites.branchOfficeName,
       correspondentAccount: requesites.correspondentAccount,
       paymentAccount: requesites.paymentAccount,
       index: index

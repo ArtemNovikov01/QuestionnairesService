@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuestionnairesService.Application.Services;
 using QuestionnairesService.Models.Entities;
+using System.Reflection;
 
 namespace QuestionnairesService.DataBase;
 public class QuestionnairesServiceDbContext : DbContext, IQuestionnairesServiceDbContext
@@ -9,7 +10,11 @@ public class QuestionnairesServiceDbContext : DbContext, IQuestionnairesServiceD
     {
         Database.EnsureCreated();
     }
-    
-    public DbSet<LimitedLiabilityCompany> LimitedLiabilityCompanies => Set<LimitedLiabilityCompany>();
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+
+    public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<Bank> Banks => Set<Bank>();
 }

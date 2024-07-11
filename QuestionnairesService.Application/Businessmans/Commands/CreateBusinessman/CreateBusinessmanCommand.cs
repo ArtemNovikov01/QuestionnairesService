@@ -63,9 +63,9 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
             skanContractRentBytes = memoryStream.ToArray();
 
             var newBuisnessman = isLimitedLiabilityCompany
-                ? new LimitedLiabilityCompany(
-                    command.BuisnessmenDto.FullName,
-                    command.BuisnessmenDto.ShortName,
+                ? new Organization(
+                    command.BuisnessmenDto.FullName!,
+                    command.BuisnessmenDto.ShortName!,
                     command.BuisnessmenDto.INN,
                     skanINNBytes,
                     command.BuisnessmenDto.RegistrationNumber,
@@ -74,7 +74,7 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                     skanContractRentBytes,
                     command.BuisnessmenDto.AvailabilityContract,
                     command.BuisnessmenDto.buisnessmanType)
-                : new LimitedLiabilityCompany(
+                : new Organization(
                     command.BuisnessmenDto.INN,
                     skanINNBytes,
                     command.BuisnessmenDto.RegistrationNumber,
@@ -84,7 +84,7 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                     command.BuisnessmenDto.AvailabilityContract,
                     command.BuisnessmenDto.buisnessmanType);
 
-            _questionnairesServiceDbContext.LimitedLiabilityCompanies.Add(newBuisnessman);
+            _questionnairesServiceDbContext.Organizations.Add(newBuisnessman);
 
             List<Bank> banks = new();
 

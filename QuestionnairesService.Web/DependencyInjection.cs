@@ -52,7 +52,7 @@ namespace QuestionnairesService.Backend
         public static WebApplication ConfigureWebApplication(this WebApplication app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(opt => { opt.SwaggerEndpoint("v1/swagger.json", "AllSharing Backend"); });
+            app.UseSwaggerUI(opt => { opt.SwaggerEndpoint("v1/swagger.json", "Registartion Organization"); });
 
             app.UseRouting();
 
@@ -65,7 +65,7 @@ namespace QuestionnairesService.Backend
             if (!app.Environment.IsProduction())
             {
                 app.UseCors(cfg => cfg
-                    .WithOrigins("http://localhost:3000", "https://localhost:3000", "https://allsharing-front.vercel.app")
+                    .WithOrigins("http://localhost:3000")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());

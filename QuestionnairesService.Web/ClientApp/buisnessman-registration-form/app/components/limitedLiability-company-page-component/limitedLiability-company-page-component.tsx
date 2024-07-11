@@ -10,28 +10,16 @@ import { Buisnessman } from "@/app/shared/models/form-models/buisnessmanModel";
 import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequesitesBank";
 import { BuisnessmanInfo } from "@/app/shared/models/form-models/buisnessmanInfoModel";
 import { BuisnessmanType } from "@/app/shared/models/enums/BuisnessmanType";
-
-// Используйте компонент FontAwesomeIcon
-
-
+import { RequesitesConstructor } from "@/app/shared/constructor-pages/requesites.constructor";
 
 const getDataEvent = new LimitedLiabilityCompanyEvents()
+const constructorPage = new RequesitesConstructor()
 
 export default function LimitedLiabilityCompany(){
   const dispatch = useDispatch();
   let requesitesBanks = useSelector<RequesitesInterface, CreateRequesitesBank[]>(
     (state) => state.buisnessman.buisnessman.requesitesBanks
   );
-    // const getBuisnessmanModel = () => {
-    //   dispatch(setBuisnessmanInfo({
-    //     ...Buisnessman,
-    //     inn: formValues.inn,
-    //     fullName: formValues.fullName,
-    //     shortName: formValues.shortName,
-    //     registrationNumber: formValues.registrationNumber,
-    //     registrationDate: formValues.registrationDate?.toISOString(),
-    //   }));
-    // };
 
     const [requesitesForm, setrequesitesForm] = useState<React.ReactNode[]>([]);
 
@@ -56,11 +44,11 @@ export default function LimitedLiabilityCompany(){
         && formValues.shortName 
         && /^\d{13}$/.test(formValues.registrationNumber)
         && formValues.registrationDate
-      return formValid;
-        //  && SkanInn 
-        //  && SkanOgrnip 
-        //  && SkanResponseEgrip 
-        //  && (SkanContractRent || AvailabilityContract);
+        && SkanInn 
+        && SkanOgrnip 
+        && SkanResponseEgrip 
+        && (SkanContractRent || AvailabilityContract);
+        return formValid;
     };
 
     const isAvailabilityContract = () => {
@@ -75,171 +63,169 @@ export default function LimitedLiabilityCompany(){
         <div className="container-fluid">
             <p className="custom-paragraph">Общество с ограниченной ответственностью (ООО)</p>
             <form className="col-12">
-              <div className="row">
-                <div className="col-6">
-                  <label className="form-text custom-label">Наименование полное*</label>
-                  <input
-                    name="fullName"
-                    value={formValues.fullName}
-                    onChange={(e) =>
-                      setFormValues({ ...formValues, fullName: e.target.value })
-                    }
-                    className="form-control"
-                    placeholder="ООО &laquo;Московская промышленная компания&raquo;"
-                  />
+                <div className="row">
+                    <div className="col-6">
+                        <label className="form-text custom-label">Наименование полное*</label>
+                        <input
+                          name="fullName"
+                          value={formValues.fullName}
+                          onChange={(e) =>
+                            setFormValues({ ...formValues, fullName: e.target.value })
+                          }
+                          className="form-control"
+                          placeholder="ООО &laquo;Московская промышленная компания&raquo;"
+                        />
+                    </div>
+                    <div className="col-4">
+                        <label className="form-text custom-label">Наименование сокращенное*</label>
+                        <input
+                          name="shortName"
+                          value={formValues.shortName}
+                          onChange={(e) =>
+                            setFormValues({ ...formValues, shortName: e.target.value })
+                          }
+                          className="form-control"
+                          placeholder="ООО &laquo;МПК&raquo;"
+                        />
+                    </div>
+                    <div className="col-2">
+                        <label className="form-text custom-label">Дата регистрации*</label>
+                        <input
+                          name="dateRegistration"
+                          value={
+                            formValues.registrationDate
+                              ? formValues.registrationDate.toISOString().slice(0, 10)
+                              : 'xxxxxxxxxx'
+                          }
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              registrationDate: new Date(e.target.value),
+                            })
+                          }
+                          className="form-control"
+                          type="date"
+                        />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-2">
+                        <label className="form-text custom-label">ИНН*</label>
+                        <input
+                          defaultValue={formValues.inn}
+                          name="Inn"
+                          onChange={(e) => {
+                              getDataEvent.getData(e.target.value, setFormValues)
+                              }} 
+                          className="form-control"
+                          placeholder="xxxxxxxxxx"
+                        />
+                        <p className="custom-message-error">{formValues.errorMessage}</p>
+                    </div>
+                    <div className="col-4">
+                        <label className="form-text custom-label">Скан ИНН*</label>
+                        <div className="input-group mb-3">
+                            <input
+                              onChange={(e) => {
+                                if (e.target.files && e.target.files.length > 0) {
+                                    getDataEvent.setFile(e.target.files[0], setSkanInn);
+                                }
+                                else{
+                                    getDataEvent.setFile(null, setSkanInn);
+                                }
+                              }}
+                              name="SkanInn"
+                              className="form-control"
+                              type="file"
+                              placeholder="Выберите или перетащите файл"
+                            />
+                            <span className="input-group-text">
+                              <i className="fas fa-upload"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="col-2">
+                      <label className="form-text custom-label">ОГРН*</label>
+                      <input
+                        name="Ogrn"
+                        value={formValues.registrationNumber}
+                        onChange={(e) =>
+                          setFormValues({ ...formValues, registrationNumber: e.target.value })
+                        }
+                        className="form-control"
+                        placeholder="xxxxxxxxxxxxxxx"
+                      />
+                    </div>
+                    <div className="col-4">
+                        <label className="form-text custom-label">Скан ОГРН*</label>
+                        <div className="input-group mb-3">
+                            <input onChange={(e) => {
+                                if (e.target.files && e.target.files.length > 0) {
+                                    getDataEvent.setFile(e.target.files[0], setSkanOgrnip);
+                                }
+                                else{
+                                    getDataEvent.setFile(null, setSkanOgrnip);
+                                }
+                              }}
+                              name="SkanOgrn"
+                              className="form-control"
+                              type="file"
+                              placeholder="Выберите или перетащите файл"
+                            />
+                            <span className="input-group-text">
+                              <i className="fas fa-upload"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            <div className="row">
+                <div className="col-4">
+                    <label className="form-text custom-label">
+                      Скан выписки из ЕГРИП (не старше 3 месяцев)*
+                    </label>
+                    <div className="input-group mb-3">
+                        <input onChange={(e) => 
+                            {
+                             if (e.target.files && e.target.files.length > 0) {
+                                 getDataEvent.setFile(e.target.files[0], setSkanResponseEgrip);
+                             }
+                             else{
+                                 getDataEvent.setFile(null, setSkanResponseEgrip);
+                            }}}
+                          name="SkanResponseEgrip"
+                          className="form-control"
+                          type="file"
+                          placeholder="Выберите или перетащите файл"
+                        />
+                        <span className="input-group-text">
+                          <i className="fas fa-upload"></i>
+                        </span>
+                    </div>
                 </div>
                 <div className="col-4">
-                  <label className="form-text custom-label">Наименование сокращенное*</label>
-                  <input
-                    name="shortName"
-                    value={formValues.shortName}
-                    onChange={(e) =>
-                      setFormValues({ ...formValues, shortName: e.target.value })
-                    }
-                    className="form-control"
-                    placeholder="ООО &laquo;МПК&raquo;"
-                  />
-                </div>
-                <div className="col-2">
-                  <label className="form-text custom-label">Дата регистрации*</label>
-                  <input
-                    name="dateRegistration"
-                    value={
-                      formValues.registrationDate
-                        ? formValues.registrationDate.toISOString().slice(0, 10)
-                        : 'xxxxxxxxxx'
-                    }
-                    onChange={(e) =>
-                      setFormValues({
-                        ...formValues,
-                        registrationDate: new Date(e.target.value),
-                      })
-                    }
-                    className="form-control"
-                    type="date"
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-2">
-                  <label className="form-text custom-label">ИНН*</label>
-                  <input
-                    defaultValue={formValues.inn}
-                    name="Inn"
-                    onChange={(e) => {
-                        getDataEvent.getData(e.target.value, setFormValues)
-                        }} 
-                    className="form-control"
-                    placeholder="xxxxxxxxxx"
-                  />
-                  <p className="custom-message-error">{formValues.errorMessage}</p>
-                </div>
-                <div className="col-4">
-                  <label className="form-text custom-label">Скан ИНН*</label>
-                  <div className="input-group mb-3">
-                    <input
-                        onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                            getDataEvent.setFile(e.target.files[0], setSkanInn);
-                        }
-                        else{
-                            getDataEvent.setFile(null, setSkanInn);
-                        }
-                      }}
-                      name="SkanInn"
-                      className="form-control"
-                      type="file"
-                      placeholder="Выберите или перетащите файл"
-                    />
-                    <span className="input-group-text">
-                      <i className="fas fa-upload"></i>
-                    </span>
-                  </div>
-                </div>
-                <div className="col-2">
-                  <label className="form-text custom-label">ОГРН*</label>
-                  <input
-                    name="Ogrnip"
-                    value={formValues.registrationNumber}
-                    onChange={(e) =>
-                      setFormValues({ ...formValues, registrationNumber: e.target.value })
-                    }
-                    className="form-control"
-                    placeholder="xxxxxxxxxxxxxxx"
-                  />
-                </div>
-                <div className="col-4">
-                  <label className="form-text custom-label">Скан ОГРН*</label>
-                  <div className="input-group mb-3">
-                    <input
-                        onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                            getDataEvent.setFile(e.target.files[0], setSkanOgrnip);
-                        }
-                        else{
-                            getDataEvent.setFile(null, setSkanOgrnip);
-                        }
-                      }}
-                      name="SkanOgrnip"
-                      className="form-control"
-                      type="file"
-                      placeholder="Выберите или перетащите файл"
-                    />
-                    <span className="input-group-text">
-                      <i className="fas fa-upload"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4">
-                  <label className="form-text custom-label">
-                    Скан выписки из ЕГРИП (не старше 3 месяцев)*
-                  </label>
-                  <div className="input-group mb-3">
-                    <input
-                        onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                            getDataEvent.setFile(e.target.files[0], setSkanResponseEgrip);
-                        }
-                        else{
-                            getDataEvent.setFile(null, setSkanResponseEgrip);
-                        }
-                      }}
-                      name="SkanResponseEgrip"
-                      className="form-control"
-                      type="file"
-                      placeholder="Выберите или перетащите файл"
-                    />
-                    <span className="input-group-text">
-                      <i className="fas fa-upload"></i>
-                    </span>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <label className="form-text custom-label">
-                    Скан договора аренды помещения (офиса)*
-                  </label>
-                  <div className="input-group mb-3">
-                    <input
-                        disabled = {!isAvailabilityContract()}
-                        onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                            getDataEvent.setFile(e.target.files[0], setSkanContractRent);
-                        }
-                        else{
-                            getDataEvent.setFile(null, setSkanContractRent);
-                        }
-                      }}
-                      name="SkanContractRent"
-                      className="form-control"
-                      type="file"
-                      placeholder="Выберите или перетащите файл"
-                    />
-                    <span className="input-group-text">
-                      <i className="fas fa-upload"></i>
-                    </span>
-                  </div>
+                    <label className="form-text custom-label">
+                      Скан договора аренды помещения (офиса)*
+                    </label>
+                    <div className="input-group mb-3">
+                      <input
+                          disabled = {!isAvailabilityContract()}
+                          onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                              getDataEvent.setFile(e.target.files[0], setSkanContractRent);
+                          }
+                          else{
+                              getDataEvent.setFile(null, setSkanContractRent);
+                          }
+                        }}
+                        name="SkanContractRent"
+                        className="form-control"
+                        type="file"
+                        placeholder="Выберите или перетащите файл"
+                      />
+                      <span className="input-group-text">
+                        <i className="fas fa-upload"></i>
+                      </span>
+                    </div>
                 </div>
                 <div className="col-2">
                   <input
@@ -254,63 +240,64 @@ export default function LimitedLiabilityCompany(){
                   />
                   <label className="form-text custom-label-checkbox">Нет договора</label>
                 </div>
-              </div>
-              {requesitesForm.length === 0 && (
-                 <button
-                   className="btn btn-primary custom-button-right"
-                   onClick={() => {
-                    //getBuisnessmanModel();
-                    getDataEvent.getRequesitesForm(setrequesitesForm);
-                   }}
-                   disabled={!isValidForm()}
-                 >
-                   Далее
-                 </button>
-               )}
+            </div>
+            {requesitesForm.length === 0 && (
+               <button
+                 className="btn btn-primary custom-button-right"
+                 onClick={() => constructorPage.getRequesitesForm(setrequesitesForm)}
+                 disabled={!isValidForm()}
+               >
+                 Далее
+               </button>
+            )}
             {requesitesForm.map((item, index) => (
               <div key={index}>{item}</div>
             ))}
-
             {requesitesForm.length > 0 && (
-              <div className="row">
-                <div className="col-3">
-            <p className='button-add-requesites'
-               onClick={() => getDataEvent.getRequesitesForm(setrequesitesForm)}>
-                <i className="button-add-requesites">
-                <FontAwesomeIcon className="custom-picture" icon={faPlus}/>Добавить ещё один банк</i></p>
-               </div>
-               {requesitesForm.length > 1 && (
-               <div className="col-3">
-            <p className='button-remove-requesites'
-               onClick={() => {
-                  let index = getDataEvent.deleteRequesitesForm(setrequesitesForm)
-                  dispatch(deleteRequesites(index))}}>
-                <i className="button-remove-requesites">
-                  <FontAwesomeIcon className="custom-picture" icon={faMinus} />Удалить банк</i></p>
-            </div>)}
-            </div>
-               )}
+                <div className="row">
+                    <div className="col-3">
+                        <p className='button-add-requesites'
+                           onClick={() => constructorPage.getRequesitesForm(setrequesitesForm)}>
+                           <i className="button-add-requesites">
+                           <FontAwesomeIcon className="custom-picture" icon={faPlus}/>Добавить ещё один банк</i></p>
+                    </div>
+                    {requesitesForm.length > 1 && (
+                        <div className="col-3">
+                            <p className='button-remove-requesites'
+                               onClick={() => 
+                               {
+                                  let index = constructorPage.deleteRequesitesForm(setrequesitesForm)
+                                  dispatch(deleteRequesites(index))
+                               }}>
+                               <i className="button-remove-requesites">
+                               <FontAwesomeIcon className="custom-picture" icon={faMinus} />Удалить банк</i></p>
+                        </div>
+                      )}
+                </div>
+             )}
             </form>
-
             <button onClick={(e) => 
-              {getDataEvent.createBuisnessman( {
-                ...Buisnessman,
-                buisnessmanInfo:{
-                  ...BuisnessmanInfo,
-                  buisnessmanType:BuisnessmanType.LimitedLiabilityCompany,
-                  inn: formValues.inn,
-                  fullName: formValues.fullName,
-                  shortName: formValues.shortName,
-                  registrationNumber: formValues.registrationNumber,
-                  registrationDate: formValues.registrationDate?.toString(),
-                  availabilityContract:AvailabilityContract,
-                  banks:requesitesBanks
-                },
-                SkanInn:SkanInn!,
-                SkanContractRent:SkanOgrnip!,
-                SkanRegistrationNumber:SkanOgrnip!,
-                SkanExtractFromTax:SkanResponseEgrip!,
-              })}}>Отправить</button>
+            {
+                getDataEvent.createBuisnessman(
+                {
+                    ...Buisnessman,
+                    buisnessmanInfo:{
+                      ...BuisnessmanInfo,
+                      buisnessmanType:BuisnessmanType.LimitedLiabilityCompany,
+                      inn: formValues.inn,
+                      fullName: formValues.fullName,
+                      shortName: formValues.shortName,
+                      registrationNumber: formValues.registrationNumber,
+                      registrationDate: formValues.registrationDate?.toString(),
+                      availabilityContract:AvailabilityContract,
+                      banks:requesitesBanks
+                    },
+                    SkanInn:SkanInn!,
+                    SkanContractRent:SkanOgrnip!,
+                    SkanRegistrationNumber:SkanOgrnip!,
+                    SkanExtractFromTax:SkanResponseEgrip!,
+                })
+            }}>Отправить</button>
         </div>
     )
 }

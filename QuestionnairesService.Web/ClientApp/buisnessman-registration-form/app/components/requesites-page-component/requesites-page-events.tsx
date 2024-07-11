@@ -4,15 +4,6 @@ import { CreateRequesitesBank } from "@/app/shared/models/form-models/createRequ
 
 const service = new BusinessmanService()
 
-// const GetRequesites = (index:number) =>{
-//     const a = useSelector<Buisnessman,CreateRequesitesBank>(state => state.requesitesBanks[index]);
-// }
-
-// const dispatch = useDispatch();
-// const CreateRequesites = () =>{
-//     dispatch(setRequesitesInfo(requesites));
-// }
-
 let requesites: CreateRequesitesBank;
 export class RequesitesEvents {
     
@@ -55,8 +46,8 @@ export class RequesitesEvents {
                 errorMessage: data.errorMessage
             }));
             requesites = {
-                     bin: data.bin,
-                     nameBankBranch: data.nameBankBranch,
+                     bankCode: data.bin,
+                     branchOfficeName: data.nameBankBranch,
                      correspondentAccount: data.correspondentAccount,
                      paymentAccount: ''
                    };

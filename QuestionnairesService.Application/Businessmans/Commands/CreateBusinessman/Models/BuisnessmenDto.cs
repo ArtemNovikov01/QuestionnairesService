@@ -9,12 +9,12 @@ namespace QuestionnairesService.Application.Businessmans.Commands.CreateBusiness
         /// <summary>
         ///     Наименование полное.
         /// </summary>
-        public string FullName { get; init; } = null!;
+        public string? FullName { get; init; }
 
         /// <summary>
         ///     Наименование сокращённое.
         /// </summary>
-        public string ShortName { get; init; } = null!;
+        public string? ShortName { get; init; }
 
         /// <summary>
         ///  ИНН.

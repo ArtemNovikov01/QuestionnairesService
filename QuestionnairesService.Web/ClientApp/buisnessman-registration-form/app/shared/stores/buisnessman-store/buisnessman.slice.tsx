@@ -4,12 +4,6 @@ const buisnessmanSlice = createSlice({
     name:'buisnessman',
     initialState:{
         buisnessman: {
-            //  inn: '',
-            //  fullName: '',
-            //  shortName: '',
-            //  registrationNumber: '',
-            //  registrationDate: undefined,
-            //  AvailabilityContract: false,
              requesitesBanks: [{
                 bankCode: '',
                 branchOfficeName: '',
@@ -48,18 +42,6 @@ const buisnessmanSlice = createSlice({
               requesitesBanks: updatedRequisites
             };
           },
-
-        // setBuisnessmanInfo(state, action) {
-        //     state.buisnessman = {
-        //         ...state.buisnessman,
-        //         inn: action.payload.inn,
-        //         fullName: action.payload.fullName,
-        //         shortName: action.payload.shortName,
-        //         registrationNumber: action.payload.registrationNumber,
-        //         registrationDate: action.payload.registrationDate,
-        //         AvailabilityContract: action.payload.AvailabilityContract,
-        //     };
-        // },
 
         deleteRequesites(state,action){
             let updatedRequisites;

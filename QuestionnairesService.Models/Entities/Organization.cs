@@ -1,7 +1,7 @@
 ﻿using QuestionnairesService.Models.Enums;
 
 namespace QuestionnairesService.Models.Entities;
-public class LimitedLiabilityCompany
+public class Organization
 {
     public int Id { get; private set; }
 
@@ -53,9 +53,9 @@ public class LimitedLiabilityCompany
     public IList<Bank>? Banks { get; private set; }
 
     #region Constructors
-    public LimitedLiabilityCompany() { }
+    public Organization() { }
 
-    public LimitedLiabilityCompany( 
+    public Organization( 
         string inn, 
         byte[] skanInn, 
         string registrationNumber, 
@@ -75,7 +75,7 @@ public class LimitedLiabilityCompany
         BuisnessmanType = buisnessmanType;
     }
 
-    public LimitedLiabilityCompany(
+    public Organization(
         string fullName,
         string shortName,
         string inn,

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using QuestionnairesService.Models.Entities;
 
 namespace QuestionnairesService.DataBase.Configurations;
-public class LimitedLiabilityCompanyConfiguration : IEntityTypeConfiguration<LimitedLiabilityCompany>
+public class LimitedLiabilityCompanyConfiguration : IEntityTypeConfiguration<Organization>
 {
-    public void Configure(EntityTypeBuilder<LimitedLiabilityCompany> builder)
+    public void Configure(EntityTypeBuilder<Organization> builder)
     {
         builder.HasKey(l => l.Id);
 
@@ -37,6 +37,6 @@ public class LimitedLiabilityCompanyConfiguration : IEntityTypeConfiguration<Lim
             .IsRequired();
 
         builder.HasMany(l => l.Banks)
-            .WithOne(b => b.LimitedLiabilityCompany);
+            .WithOne(b => b.Organization);
     }
 }

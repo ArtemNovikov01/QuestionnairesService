@@ -1,6 +1,4 @@
-import { BuisnessmanInfo } from "../models/form-models/buisnessmanInfoModel";
 import { Buisnessman } from "../models/form-models/buisnessmanModel";
-import { CreateRequesitesBank } from "../models/form-models/createRequesitesBank";
 import { GetInfoByBin } from "../models/form-models/getInfoByBinModel";
 import { GetInfoByInn } from "../models/form-models/getInfoByInnModel";
 

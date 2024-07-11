@@ -13,17 +13,15 @@ namespace QuestionnairesService.DataBase.Configurations
             builder.Property(b => b.BankCode)
                 .IsRequired();
 
-            builder.Property(b => b.LimitedLiabilityCompany)
-                .IsRequired();
-
             builder.Property(b => b.PaymentAccount)
                 .IsRequired();
 
             builder.Property(b => b.BranchOfficeName)
                 .IsRequired();
 
-            builder.HasOne(b => b.LimitedLiabilityCompany)
-                .WithMany(l => l.Banks);
+            builder.HasOne(b => b.Organization)
+                .WithMany(l => l.Banks)
+                .IsRequired();
         }
     }
 }

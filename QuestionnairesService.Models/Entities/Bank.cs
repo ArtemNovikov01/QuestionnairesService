@@ -24,7 +24,7 @@
         /// </summary>
         public string CorrespondentAccount { get; private set; } = null!;
 
-        public LimitedLiabilityCompany LimitedLiabilityCompany { get; private set; } = null!;
+        public Organization Organization { get; private set; } = null!;
 
         #region Constructors
         public Bank() { }
@@ -34,13 +34,13 @@
             string branchOfficeName,
             string paymentAccount,
             string correspondentAccount,
-            LimitedLiabilityCompany limitedLiabilityCompany)
+            Organization limitedLiabilityCompany)
         {
             BankCode = bankCode;
             BranchOfficeName = branchOfficeName;
             PaymentAccount = paymentAccount;
             CorrespondentAccount = correspondentAccount;
-            LimitedLiabilityCompany = limitedLiabilityCompany;
+            Organization = limitedLiabilityCompany;
         }
         #endregion
     }
