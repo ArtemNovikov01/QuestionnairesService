@@ -11,7 +11,7 @@ public class QuestionnairesServiceDbContext : DbContext, IQuestionnairesServiceD
         Database.EnsureCreated();
     }
     
-    public DbSet<LimitedLiabilityCompany> LimitedLiabilityCompanies => Set<LimitedLiabilityCompany>();
+    public DbSet<Organization> LimitedLiabilityCompanies => Set<Organization>();
     public DbSet<Bank> Banks => Set<Bank>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
