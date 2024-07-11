@@ -61,7 +61,6 @@ export class BusinessmanService {
 
 
   async createBuisnessman(newBuisnessman: Buisnessman) {
-    console.log(newBuisnessman);
     const formData = new FormData();
 
     if (newBuisnessman.SkanInn) {

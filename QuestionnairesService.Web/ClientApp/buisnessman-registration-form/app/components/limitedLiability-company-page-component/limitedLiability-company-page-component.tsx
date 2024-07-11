@@ -264,9 +264,9 @@ export default function LimitedLiabilityCompany(){
                     {requesitesForm.length > 1 && (
                         <div className="col-3">
                             <p className='button-remove-requesites'
-                               onClick={() => 
+                               onClick={async () => 
                                {
-                                  let index = constructorPage.deleteRequesitesForm(setrequesitesForm)
+                                  var index = await constructorPage.deleteRequesitesForm(setrequesitesForm)
                                   dispatch(deleteRequesites(index))
                                }}>
                                <i className="button-remove-requesites">
