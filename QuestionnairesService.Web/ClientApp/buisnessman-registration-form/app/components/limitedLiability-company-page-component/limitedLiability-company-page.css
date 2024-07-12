@@ -1,0 +1,29 @@
+.custom-paragraph{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+.custom-label
+{
+    margin-bottom: 5px;
+}
+.custom-checkbox
+{
+    margin-top: 40px;
+}
+.custom-label-checkbox
+{
+    margin-top: 38px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+.custom-message-error{
+    color:red;
+    font-size: 10px;
+    margin-top: 5px;
+}
+.custom-button-right {
+    display: block;
+    margin-left: auto;
+    margin-top: 1rem;
+  }

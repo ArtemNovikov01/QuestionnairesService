@@ -1,13 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuestionnairesService.Application.Services;
 using QuestionnairesService.Models.Entities;
+using System.Reflection;
 
 namespace QuestionnairesService.DataBase;
 public class QuestionnairesServiceDbContext : DbContext, IQuestionnairesServiceDbContext
 {
-    public DbSet<IndividualEntrepreneur> IndividualEntrepreneurs { get; set; }
-    public DbSet<LimitedLiabilityCompany> LimitedLiabilityCompanies { get; set; }
-    public DbSet<BankRequisites> BankRequisites { get; set; }
-    public QuestionnairesServiceDbContext(DbContextOptions options) : base(options) { }
+    public QuestionnairesServiceDbContext(DbContextOptions<QuestionnairesServiceDbContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
 
+    public DbSet<Organization> Organizations => Set<Organization>();
+    public DbSet<Bank> Banks => Set<Bank>();
 }

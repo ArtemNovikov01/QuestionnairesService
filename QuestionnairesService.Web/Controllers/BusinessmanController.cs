@@ -1,6 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman;
+using QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models;
+using QuestionnairesService.Application.Businessmans.Querys.GetInfoByBin;
+using QuestionnairesService.Application.Businessmans.Querys.GetInfoByInn;
 
 namespace QuestionnairesService.Web.Controllers;
 
@@ -16,8 +19,47 @@ public class BusinessmanController : ControllerBase
     }
 
     [HttpPost("createBusinessman")]
-    public Task<CreateBusinessmanResponse> CreateBusinessman(CreateBusinessmanCommand command)
+    public async Task<CreateBusinessmanResponse> CreateBusinessman([FromForm]CreateBusinessmanRequest newBuisnessman)
     {
-        return _mediator.Send(command, HttpContext.RequestAborted);
+        await using Stream skanINNStream = newBuisnessman.SkanINN.OpenReadStream();
+
+        await using Stream skanRegistrationNumberStream = newBuisnessman.SkanRegistrationNumber.OpenReadStream();
+
+        await using Stream skanExtractFromTaxStream = newBuisnessman.SkanExtractFromTax.OpenReadStream();
+
+        await using Stream? skanContractRentStream = newBuisnessman.SkanContractRent != null ? newBuisnessman.SkanContractRent.OpenReadStream() : null;
+
+        var command = new CreateBusinessmanCommand
+        {
+            BuisnessmenDto = newBuisnessman.BuisnessmanInfo,
+            SkanINN = skanINNStream,
+            SkanRegistrationNumber = skanRegistrationNumberStream,
+            SkanExtractFromTax = skanExtractFromTaxStream,
+            SkanContractRent = skanContractRentStream
+        };
+
+        return await _mediator.Send(command, HttpContext.RequestAborted);
     }
+
+    [HttpPost("getInfoByInn")]
+    public async Task<GetInfoByInnResponse> GetInfoByInn(GetInfoByInnQuery query)
+    {
+        return await _mediator.Send(query, HttpContext.RequestAborted);
+    }
+
+    [HttpPost("getInfoByBin")]
+    public async Task<GetInfoByBinResponse> GetInfoByBin(GetInfoByBinQuery query)
+    {
+
+        return await _mediator.Send(query, HttpContext.RequestAborted);
+    }
+}
+
+public class CreateBusinessmanRequest
+{
+    public IFormFile SkanINN { get; set; } = null!;
+    public IFormFile SkanRegistrationNumber { get; set; } = null!;
+    public IFormFile SkanExtractFromTax { get; set; } = null!;
+    public IFormFile? SkanContractRent { get; set; }
+    public BuisnessmenDto BuisnessmanInfo { get; set; } = null!;
 }
