@@ -35,7 +35,7 @@ export class RequesitesEvents {
         paymentAccountFromForm(paymentAccount);
     }
 
-    async getData(indexComponent: number, bin: string, formElements: React.Dispatch<React.SetStateAction<GetInfoByBin>>):Promise<CreateRequesitesBank>{
+    async getData(indexComponent: number, bin: string, paymentAccount:string, formElements: React.Dispatch<React.SetStateAction<GetInfoByBin>>):Promise<CreateRequesitesBank>{
         if (/^\d{9}$/.test(bin)){
             const data = await service.getDataByBin(bin);
             formElements(prevState => ({
@@ -49,7 +49,7 @@ export class RequesitesEvents {
                      bankCode: data.bin,
                      branchOfficeName: data.nameBankBranch,
                      correspondentAccount: data.correspondentAccount,
-                     paymentAccount: ''
+                     paymentAccount: paymentAccount
                    };
             return requesites;
         }
@@ -68,7 +68,7 @@ export class RequesitesEvents {
         if(bin.length < 10 && !parseInt(bin)){
             formElements(prevState => ({
                 ...prevState,
-                errorMessage: 'БИК должен состоять только из цифр. ИНН должен состоять из 10 символов'
+                errorMessage: 'БИК должен состоять только из цифр. БИК должен состоять из 10 символов'
             }));
         }
         if(bin.length === 0){
@@ -76,6 +76,12 @@ export class RequesitesEvents {
                 ...prevState,
                 errorMessage: ''
             }));
+        }
+        requesites ={
+            bankCode: '',
+            branchOfficeName: '',
+            correspondentAccount: '',
+            paymentAccount: paymentAccount
         }
         return requesites;
     }

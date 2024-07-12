@@ -38,7 +38,7 @@ export default function LimitedLiabilityCompany(){
     const [SkanContractRent, setSkanContractRent] = useState<File | null>(null);
     const [AvailabilityContract, setAvailabilityContract] = useState<boolean>(false);
 
-    const isValidForm = () => {
+    const isValidCompany = () => {
       const formValid = /^\d{10}$/.test(formValues.inn)
         && formValues.fullName 
         && formValues.shortName 
@@ -50,6 +50,16 @@ export default function LimitedLiabilityCompany(){
         && (SkanContractRent || AvailabilityContract);
         return formValid;
     };
+
+    const isValidRequisites = () => {
+      return requesitesBanks.every(req =>
+         /^\d{9}$/.test(req.bankCode) &&
+        req.branchOfficeName.length > 0 &&
+         /^\d{20}$/.test(req.correspondentAccount) &&
+         /^\d{20}$/.test(req.paymentAccount)
+      );
+    };
+    
 
     const isAvailabilityContract = () => {
         return !AvailabilityContract;
@@ -92,10 +102,10 @@ export default function LimitedLiabilityCompany(){
                         <label className="form-text custom-label">Дата регистрации*</label>
                         <input
                           name="dateRegistration"
-                          value={
+                          defaultValue={
                             formValues.registrationDate
                               ? formValues.registrationDate.toISOString().slice(0, 10)
-                              : 'xxxxxxxxxx'
+                              : undefined
                           }
                           onChange={(e) =>
                             setFormValues({
@@ -244,12 +254,17 @@ export default function LimitedLiabilityCompany(){
             {requesitesForm.length === 0 && (
                <button
                  className="btn btn-primary custom-button-right"
-                 onClick={() => constructorPage.getRequesitesForm(setrequesitesForm)}
-                 disabled={!isValidForm()}
+                 onClick={() => {
+                  constructorPage.getRequesitesForm(setrequesitesForm);
+                  document.getElementById('Title')!.style.display = 'block';
+                  document.getElementById('SendButton')!.style.display = 'block';
+                 }}
+                 disabled={!isValidCompany()}
                >
                  Далее
                </button>
             )}
+            <p className="custom-paragraph" id="Title" style={{ display: 'none' }}>Банковские реквизиты</p>
             {requesitesForm.map((item, index) => (
               <div key={index}>{item}</div>
             ))}
@@ -276,27 +291,32 @@ export default function LimitedLiabilityCompany(){
                 </div>
              )}
             </form>
-            <button onClick={(e) => 
-            {
-                getDataEvent.createBuisnessman(
+            <button 
+              id="SendButton"
+              style={{ display: 'none' }}
+              className="btn btn-primary custom-button-right"
+              disabled={!isValidCompany() || !isValidRequisites()}
+              onClick={(e) => 
                 {
-                    ...Buisnessman,
-                    buisnessmanInfo:{
-                      ...BuisnessmanInfo,
-                      buisnessmanType:BuisnessmanType.LimitedLiabilityCompany,
-                      inn: formValues.inn,
-                      fullName: formValues.fullName,
-                      shortName: formValues.shortName,
-                      registrationNumber: formValues.registrationNumber,
-                      registrationDate: formValues.registrationDate?.toString(),
-                      availabilityContract:AvailabilityContract,
-                      banks:requesitesBanks
-                    },
-                    SkanInn:SkanInn!,
-                    SkanContractRent:SkanOgrnip!,
-                    SkanRegistrationNumber:SkanOgrnip!,
-                    SkanExtractFromTax:SkanResponseEgrip!,
-                })
+                    getDataEvent.createBuisnessman(
+                    {
+                        ...Buisnessman,
+                        buisnessmanInfo:{
+                          ...BuisnessmanInfo,
+                          buisnessmanType:BuisnessmanType.LimitedLiabilityCompany,
+                          inn: formValues.inn,
+                          fullName: formValues.fullName,
+                          shortName: formValues.shortName,
+                          registrationNumber: formValues.registrationNumber,
+                          registrationDate: formValues.registrationDate?.toISOString().slice(0, 10),
+                          availabilityContract:AvailabilityContract,
+                          banks:requesitesBanks
+                        },
+                        SkanInn:SkanInn!,
+                        SkanContractRent:SkanOgrnip!,
+                        SkanRegistrationNumber:SkanOgrnip!,
+                        SkanExtractFromTax:SkanResponseEgrip!,
+                    })
             }}>Отправить</button>
         </div>
     )

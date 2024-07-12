@@ -8,9 +8,6 @@ export class RequesitesConstructor {
         });
     }
     
-    //ToDo Доработать валидацию файлов на сервере
-    //ToDo Сделать так чтобы на сервере была проверка галочки или файла
-    
     async deleteRequesitesForm(
         setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>
       ): Promise<number>{

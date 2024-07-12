@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using QuestionnairesService.Application.Businessmans.Commands.CreateBusinessman.Models;
 using QuestionnairesService.Application.Services;
 using QuestionnairesService.Exceptions.Common.Exceptions;
@@ -27,7 +28,7 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
     /// <summary>
     ///     Скан договора аренды помещения (офиса).
     /// </summary>
-    public Stream SkanContractRent { get; init; } = null!;
+    public Stream? SkanContractRent { get; init; } = null!;
 
     public sealed class CreateArticleTagCommandHandler : IRequestHandler<CreateBusinessmanCommand, CreateBusinessmanResponse>
     {
@@ -46,7 +47,7 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
             byte[] skanINNBytes;
             byte[] skanRegistrationNumberBytes;
             byte[] skanExtractFromTaxBytes;
-            byte[] skanContractRentBytes;
+            byte[]? skanContractRentBytes = null;
 
             await using MemoryStream memoryStream = new MemoryStream();
 
@@ -59,8 +60,13 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
             await command.SkanExtractFromTax.CopyToAsync(memoryStream);
             skanExtractFromTaxBytes = memoryStream.ToArray();
 
-            await command.SkanContractRent.CopyToAsync(memoryStream);
-            skanContractRentBytes = memoryStream.ToArray();
+            if (command.SkanContractRent != null)
+            {
+                await command.SkanContractRent.CopyToAsync(memoryStream);
+                skanContractRentBytes = memoryStream.ToArray();
+            }
+            var registrationDate = DateTime.Parse(command.BuisnessmenDto.RegistrationDate);
+            registrationDate = DateTime.SpecifyKind(registrationDate, DateTimeKind.Utc);
 
             var newBuisnessman = isLimitedLiabilityCompany
                 ? new Organization(
@@ -70,6 +76,7 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                     skanINNBytes,
                     command.BuisnessmenDto.RegistrationNumber,
                     skanRegistrationNumberBytes,
+                    registrationDate,
                     skanExtractFromTaxBytes,
                     skanContractRentBytes,
                     command.BuisnessmenDto.AvailabilityContract,
@@ -79,6 +86,7 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                     skanINNBytes,
                     command.BuisnessmenDto.RegistrationNumber,
                     skanRegistrationNumberBytes,
+                    registrationDate,
                     skanExtractFromTaxBytes,
                     skanContractRentBytes,
                     command.BuisnessmenDto.AvailabilityContract,
@@ -143,6 +151,16 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'ОГРНИП' должно быть заполнено");
             }
 
+            if (string.IsNullOrEmpty(command.BuisnessmenDto.RegistrationDate))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Поле 'Дата регистрации' должно быть заполнено");
+            }
+
+            if (!DateTime.TryParse(command.BuisnessmenDto.RegistrationDate, out DateTime dateTime))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Невалидная 'Дата регистрации'");
+            }
+
             if (command.SkanINN.Length == 0)
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Должен быть прикреплён 'Скан ИНН'");
@@ -158,9 +176,34 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Должен быть прикреплён 'Скан выписки из ЕГРИП'");
             }
 
-            if (command.SkanContractRent.Length == 0)
+            if (command.SkanContractRent == null && !command.BuisnessmenDto.AvailabilityContract)
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "Должен быть прикреплён 'Скан договора аренды помещения (офиса)' или стоять отметка об отсутствии договора аренды");
+            }
+
+            if (command.SkanContractRent != null && command.SkanContractRent.Length == 0)
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Должен быть прикреплён 'Скан договора аренды помещения (офиса)'");
+            }
+
+            if (!CheckStreamSize(command.SkanINN))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "'Скан ИНН' не может быть больше 5 Мб");
+            }
+
+            if (!CheckStreamSize(command.SkanRegistrationNumber))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "'Скан ОГРНИП' не может быть больше 5 Мб");
+            }
+
+            if (!CheckStreamSize(command.SkanExtractFromTax))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "'Скан договора аренды помещения (офиса)' не может быть больше 5 Мб");
+            }
+
+            if (command.SkanContractRent != null && !CheckStreamSize(command.SkanContractRent))
+            {
+                throw new BadRequestException(ErrorCodes.Common.BadRequest, "'Скан договора аренды помещения (офиса)' не может быть больше 5 Мб");
             }
 
             if (command.BuisnessmenDto.Banks.Any())
@@ -192,6 +235,15 @@ public record CreateBusinessmanCommand: IRequest<CreateBusinessmanResponse>
             {
                 throw new BadRequestException(ErrorCodes.Common.BadRequest, "Не были указанны 'Банковские реквизиты'");
             }
+        }
+
+        private bool CheckStreamSize(Stream stream)
+        {
+            long originalPosition = stream.Position;
+            stream.Seek(0, SeekOrigin.End);
+            long size = stream.Position;
+            stream.Seek(originalPosition, SeekOrigin.Begin);
+            return size <= 5242880;
         }
     }
 }

@@ -102,7 +102,7 @@ export class BusinessmanService {
     if (!response.ok) {
       const errorText = await response.text();
       const parsedData = JSON.parse(errorText);
-      alert(parsedData);
+      alert(parsedData.message);
     }
 
     const data: any = await response.json();

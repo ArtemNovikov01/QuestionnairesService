@@ -27,7 +27,7 @@ public class BusinessmanController : ControllerBase
 
         await using Stream skanExtractFromTaxStream = newBuisnessman.SkanExtractFromTax.OpenReadStream();
 
-        await using Stream skanContractRentStream = newBuisnessman.SkanContractRent.OpenReadStream();
+        await using Stream? skanContractRentStream = newBuisnessman.SkanContractRent != null ? newBuisnessman.SkanContractRent.OpenReadStream() : null;
 
         var command = new CreateBusinessmanCommand
         {
@@ -60,6 +60,6 @@ public class CreateBusinessmanRequest
     public IFormFile SkanINN { get; set; } = null!;
     public IFormFile SkanRegistrationNumber { get; set; } = null!;
     public IFormFile SkanExtractFromTax { get; set; } = null!;
-    public IFormFile SkanContractRent { get; set; } = null!;
+    public IFormFile? SkanContractRent { get; set; }
     public BuisnessmenDto BuisnessmanInfo { get; set; } = null!;
 }

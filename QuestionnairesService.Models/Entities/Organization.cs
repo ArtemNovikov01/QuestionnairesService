@@ -41,7 +41,7 @@ public class Organization
     /// <summary>
     ///     Скан договора аренды помещения (офиса).
     /// </summary>
-    public byte[] SkanContractRent { get; private set; } = null!;
+    public byte[]? SkanContractRent { get; private set; }
 
     /// <summary>
     ///     Наличие договора.
@@ -60,8 +60,9 @@ public class Organization
         byte[] skanInn, 
         string registrationNumber, 
         byte[] skanRegistrationNumber,
+        DateTime dateRegistration,
         byte[] skanExtractFromTax,
-        byte[] skanContractRent,
+        byte[]? skanContractRent,
         bool availabilityContract,
         BuisnessmanType buisnessmanType)
     {
@@ -69,6 +70,7 @@ public class Organization
         SkanINN = skanInn;
         RegistrationNumber = registrationNumber;
         SkanRegistrationNumber = skanRegistrationNumber;
+        DateRegistration = dateRegistration;
         SkanExtractFromTax = skanExtractFromTax;
         SkanContractRent = skanContractRent;
         AvailabilityContract = availabilityContract;
@@ -82,8 +84,9 @@ public class Organization
         byte[] skanInn,
         string registrationNumber,
         byte[] skanRegistrationNumber,
+        DateTime dateRegistration,
         byte[] skanExtractFromTax,
-        byte[] skanContractRent,
+        byte[]? skanContractRent,
         bool availabilityContract,
         BuisnessmanType buisnessmanType)
     {
@@ -92,6 +95,7 @@ public class Organization
         INN = inn;
         SkanINN = skanInn;
         RegistrationNumber = registrationNumber;
+        DateRegistration = dateRegistration;
         SkanRegistrationNumber = skanRegistrationNumber;
         SkanExtractFromTax = skanExtractFromTax;
         SkanContractRent = skanContractRent;
