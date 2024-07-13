@@ -237,9 +237,7 @@ export default function IndividualEntrepreneur(){
                 )}
                 <p className="custom-paragraph" id="Title" style={{ display: 'none' }}>Банковские реквизиты</p>
                 {requesitesForm.map((item, index) => (
-                  <div>
                     <div key={index}>{item}</div>
-                  </div>
                 ))}
                 {requesitesForm.length > 0 && (
                     <div className="row">

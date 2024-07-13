@@ -1,11 +1,8 @@
-﻿using QuestionnairesService.Backend.Setting;
+﻿using QuestionnairesService.Application;
+using QuestionnairesService.Backend.Setting;
+using QuestionnairesService.DataBase;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using QuestionnairesService.DataBase;
-using QuestionnairesService.Application;
-using React.AspNet;
-using JavaScriptEngineSwitcher.ChakraCore;
-using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 
 namespace QuestionnairesService.Backend
 {
@@ -16,15 +13,16 @@ namespace QuestionnairesService.Backend
             var webAppSettings = builder.Configuration.Get<WebAppSettings>()
                              ?? throw new NullReferenceException("Не заданы настройки приложения");
 
-            // Services
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+
             builder.Services
                 .AddDatabase(webAppSettings.Database)
                 .AddApplication()
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-                //.AddReact()
-                //.AddJsEngineSwitcher(o => 
-                //    o.DefaultEngineName = ChakraCoreJsEngine.EngineName)
-                //        .AddChakraCore(); 
 
             builder.Services
                 .AddMvc()
@@ -42,7 +40,6 @@ namespace QuestionnairesService.Backend
                         .AllowAnyHeader());
             });
 
-            // Swagger
             builder.Services
                 .AddSwaggerGen();
 
@@ -51,6 +48,8 @@ namespace QuestionnairesService.Backend
 
         public static WebApplication ConfigureWebApplication(this WebApplication app)
         {
+            app.UseSpaStaticFiles();
+
             app.UseSwagger();
             app.UseSwaggerUI(opt => { opt.SwaggerEndpoint("v1/swagger.json", "Registartion Organization"); });
 
@@ -61,7 +60,6 @@ namespace QuestionnairesService.Backend
                 app.UseDeveloperExceptionPage();
             }
 
-            // Cors
             if (!app.Environment.IsProduction())
             {
                 app.UseCors(cfg => cfg
@@ -73,11 +71,21 @@ namespace QuestionnairesService.Backend
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-            app.MapControllers();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
-            //app.UseReact(config => { });
-            //app.UseDefaultFiles();
-            //app.UseStaticFiles();
+            app.UseSpa(spa =>
+            {
+                //spa.Options.SourcePath = "ClientApp";
+
+                if (app.Environment.IsDevelopment())
+                {
+                    //spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+                }
+            });
 
             return app;
         }

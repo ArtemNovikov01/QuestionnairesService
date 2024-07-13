@@ -3,7 +3,7 @@ import Requesites from "@/app/components/requesites-page-component/requesites-pa
 export class RequesitesConstructor {
     getRequesitesForm(setSelectedComponent: React.Dispatch<React.SetStateAction<React.ReactNode[]>>) {
         setSelectedComponent((prevState) => {
-          const newState = [...prevState, <Requesites index={prevState.length}/>];
+          const newState = [...prevState, <Requesites key={prevState.length} index={prevState.length}/>];
           return newState;
         });
     }
